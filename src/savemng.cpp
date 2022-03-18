@@ -22,26 +22,6 @@ VPADReadError vpad_error;
 
 KPADStatus kpad[4], kpad_status;
 
-static char *newlibToFSA(char *path)
-{
-	if (path[3] == ':')
-	{
-		switch (path[0])
-		{
-			case 'u':
-				path = replace_str(path, (char*)"usb:", (char*)"/vol/storage_usb01");
-				break;
-			case 'm':
-				path = replace_str(path, (char*)"mlc:", (char*)"/vol/storage_mlc01");
-				break;
-			case 's':
-				path = replace_str(path, (char*)"slc:", (char*)"/vol/storage_slccmpt01");
-				break;
-		}
-	}
-	return path;
-}
-
 void setFSAFD(int fd) {
 	fsaFd = fd;
 }
@@ -459,7 +439,7 @@ int DumpFile(char *pPath, char * oPath)
 	for (int i = 0; i < 3; i++)
 		MEMFreeToDefaultHeap(buffer[i]);
 
-	IOSUHAX_FSA_ChangeMode(fsaFd, newlibToFSA(oPath), 0x666);
+	chmod(oPath, DEFFILEMODE);
 	
     return 0;
 }
