@@ -22,26 +22,6 @@ VPADReadError vpad_error;
 
 KPADStatus kpad[4], kpad_status;
 
-static char *newlibToFSA(char *path)
-{
-	if (path[3] == ':')
-	{
-		switch (path[0])
-		{
-			case 'u':
-				path = replace_str(path, (char*)"usb:", (char*)"/vol/storage_usb01");
-				break;
-			case 'm':
-				path = replace_str(path, (char*)"mlc:", (char*)"/vol/storage_mlc01");
-				break;
-			case 's':
-				path = replace_str(path, (char*)"slc:", (char*)"/vol/storage_slccmpt01");
-				break;
-		}
-	}
-	return path;
-}
-
 void setFSAFD(int fd) {
 	fsaFd = fd;
 }
@@ -169,7 +149,7 @@ int createFolder(const char * fPath) { //Adapted from mkdir_p made by JonathonRe
 			if (found > 2) {
 	            *p = '\0';
 				if (checkEntry(_path) == 0) {
-					if (mkdir(_path, DEFFILEMODE) == -1) return -1;
+					if (mkdir(_path, 0x666) == -1) return -1;
 				}
 	            *p = '/';
 			}
@@ -177,7 +157,7 @@ int createFolder(const char * fPath) { //Adapted from mkdir_p made by JonathonRe
     }
 
 	if (checkEntry(_path) == 0) {
-    	if (mkdir(_path, DEFFILEMODE) == -1) return -1;
+    	if (mkdir(_path, 0x666) == -1) return -1;
 	}
 
     return 0;
@@ -459,7 +439,7 @@ int DumpFile(char *pPath, char * oPath)
 	for (int i = 0; i < 3; i++)
 		MEMFreeToDefaultHeap(buffer[i]);
 
-	IOSUHAX_FSA_ChangeMode(fsaFd, newlibToFSA(oPath), 0x666);
+	chmod(oPath, 0x666); // libiosuhax chmod isn't standard compilant
 	
     return 0;
 }
@@ -469,7 +449,7 @@ int DumpDir(char* pPath, const char* tPath) { // Source: ft2sd
 	if (dir == NULL)
 		return -1;
 
-	mkdir(tPath, DEFFILEMODE);
+	mkdir(tPath, 0x666);
 	struct dirent *data;
 
     while ((data = readdir(dir)) != NULL) {
@@ -484,7 +464,7 @@ int DumpDir(char* pPath, const char* tPath) { // Source: ft2sd
         snprintf(targetPath, FS_MAX_FULLPATH_SIZE, "%s/%s", tPath, data->d_name);
 
         if (data->d_type & DT_DIR) {
-            mkdir(targetPath, DEFFILEMODE);
+            mkdir(targetPath, 0x666);
             if (DumpDir(pPath, targetPath) != 0) {
                 closedir(dir);
                 return -2;
