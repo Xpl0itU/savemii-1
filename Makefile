@@ -32,7 +32,7 @@ include $(DEVKITPRO)/wut/share/wut_rules
 #-------------------------------------------------------------------------------
 TARGET		:=	savemii
 BUILD		:=	build
-SOURCES		:=	src src/fatfs src/fatfs/extusb_devoptab
+SOURCES		:=	src src/fatfs src/fatfs/extusb_devoptab src/utils
 DATA		:=	data
 INCLUDES	:=	include
 CONTENT		:=
@@ -44,16 +44,16 @@ ROMFS 		:= 	languages
 #-------------------------------------------------------------------------------
 # options for code generation
 #-------------------------------------------------------------------------------
-CFLAGS	:=	-std=gnu2x -g -Wall -Ofast -ffunction-sections `freetype-config --cflags` \
+CFLAGS	:=	-std=gnu2x -g -Wall -Ofast -ffunction-sections \
 			$(MACHDEP) $(INCLUDE) -D__WIIU__ -D__WUT__ -D__wiiu__
 
-CXXFLAGS	:= -std=gnu++20 -g -Wall -Wno-switch -Wno-format-overflow -Ofast -fpermissive -ffunction-sections `freetype-config --cflags` \
+CXXFLAGS	:= -std=gnu++20 -g -Wall -Wno-switch -Wno-format-overflow -Ofast -fpermissive -ffunction-sections \
 			$(MACHDEP) $(INCLUDE) -D__WIIU__ -D__WUT__ -D__wiiu__
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-g $(ARCH) $(RPXSPECS) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lwut -lmocha -ljansson `freetype-config --libs`
+LIBS	:= -lwut -lmocha -ljansson
 
 include $(PORTLIBS_PATH)/wiiu/share/romfs-wiiu.mk
 CFLAGS		+=	$(ROMFS_CFLAGS)

@@ -11,7 +11,7 @@
 #include <draw.h>
 #include <fcntl.h>
 #include <input.h>
-#include <log_freetype.h>
+#include <utils/DrawUtils.h>
 #include <string>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -24,6 +24,16 @@
 #define VERSION_MINOR 5
 #define VERSION_MICRO 3
 #define M_OFF         1
+
+#define COLOR_WHITE              Color(0xffffffff)
+#define COLOR_BLACK              Color(0, 0, 0, 255)
+#define COLOR_RED                Color(237, 28, 36, 255)
+#define COLOR_BACKGROUND         Color(0x00006F00)
+#define COLOR_TEXT               COLOR_WHITE
+#define COLOR_TEXT2              Color(0xB3ffffff)
+#define COLOR_AUTOBOOT           Color(0xaeea00ff)
+#define COLOR_BORDER             Color(204, 204, 204, 255)
+#define COLOR_BORDER_HIGHLIGHTED Color(0x3478e4ff)
 
 typedef struct {
     uint32_t highID;

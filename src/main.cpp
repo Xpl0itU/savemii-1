@@ -3,7 +3,8 @@
 #include <input.h>
 #include <json.h>
 #include <language.h>
-#include <log_freetype.h>
+#include <coreinit/debug.h>
+#include <utils/DrawUtils.h>
 #include <main.h>
 #include <savemng.h>
 #include <sndcore2/core.h>
@@ -241,12 +242,11 @@ static Title *loadWiiUTitles(int run) {
 
         wiiuTitlesCount++;
 
-        clearBuffersEx();
+        DrawUtils::endDraw();
         disclaimer();
         drawTGA(298, 144, 1, icon_tga);
         consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);
-        flipBuffers();
-        WHBLogFreetypeDraw();
+        DrawUtils::endDraw();
     }
 
     free(savesl);
@@ -387,13 +387,12 @@ static Title *loadWiiTitles() {
                     titles[i].iconBuf = nullptr;
                 i++;
 
-                clearBuffersEx();
+                DrawUtils::endDraw();
                 disclaimer();
                 drawTGA(298, 144, 1, icon_tga);
                 consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);
                 consolePrintPosAligned(11, 0, 1, gettext("Loaded %i Wii titles."), i);
-                flipBuffers();
-                WHBLogFreetypeDraw();
+                DrawUtils::endDraw();
             }
             closedir(dir);
         }
@@ -414,7 +413,28 @@ int main() {
     AXInit();
     AXQuit();
     WHBProcInit();
-    WHBLogFreetypeInit();
+    OSScreenInit();
+
+    uint32_t tvBufferSize  = OSScreenGetBufferSizeEx(SCREEN_TV);
+    uint32_t drcBufferSize = OSScreenGetBufferSizeEx(SCREEN_DRC);
+
+    auto *screenBuffer = (uint8_t *) memalign(0x100, tvBufferSize + drcBufferSize);
+    if (!screenBuffer) {
+        OSFatal("Fail to allocate screenBuffer");
+    }
+    memset(screenBuffer, 0, tvBufferSize + drcBufferSize);
+
+    OSScreenSetBufferEx(SCREEN_TV, screenBuffer);
+    OSScreenSetBufferEx(SCREEN_DRC, screenBuffer + tvBufferSize);
+
+    OSScreenEnableEx(SCREEN_TV, TRUE);
+    OSScreenEnableEx(SCREEN_DRC, TRUE);
+
+    DrawUtils::initBuffers(screenBuffer, tvBufferSize, screenBuffer + tvBufferSize, drcBufferSize);
+
+    if (!DrawUtils::initFont()) {
+        OSFatal("Failed to init font");
+    }
     WPADInit();
     KPADInit();
     WPADEnableURCC(1);
@@ -424,7 +444,7 @@ int main() {
     int res = romfsInit();
     if (res) {
         promptError("Failed to init romfs: %d", res);
-        flipBuffers();
+        DrawUtils::endDraw();
         WHBProcShutdown();
         return 0;
     }
@@ -436,12 +456,14 @@ int main() {
 
     if (!initFS()) {
         promptError(gettext("initFS failed. Please make sure your MochaPayload is up-to-date"));
-        flipBuffers();
+        DrawUtils::endDraw();
         WHBProcShutdown();
         return 0;
     }
 
-    clearBuffers();
+    DrawUtils::beginDraw();
+    DrawUtils::clear(COLOR_BLACK);
+    DrawUtils::endDraw();
     Title *wiiutitles = loadWiiUTitles(1);
     Title *wiititles = loadWiiTitles();
     int *versionList = (int *) malloc(0x100 * sizeof(int));
@@ -458,8 +480,8 @@ int main() {
         int count = mode != WiiU ? vWiiTitlesCount : wiiuTitlesCount;
 
         if (redraw) {
-            OSScreenClearBufferEx(SCREEN_DRC, 0x00006F00);
-            OSScreenClearBufferEx(SCREEN_TV, 0x00006F00);
+            DrawUtils::beginDraw();
+            DrawUtils::clear(COLOR_BACKGROUND);
 
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
             consolePrintPos(0, 1, "----------------------------------------------------------------------------");
@@ -493,11 +515,11 @@ int main() {
                         for (int i = 0; i < 14; i++) {
                             if (i + scroll < 0 || i + scroll >= count)
                                 break;
-                            ttfFontColor32(0x00FF00FF);
+                            DrawUtils::setFontColor(static_cast<Color>(0x00FF00FF));
                             if (!titles[i + scroll].saveInit)
-                                ttfFontColor32(0xFFFF00FF);
+                                DrawUtils::setFontColor(static_cast<Color>(0xFFFF00FF));
                             if (strcmp(titles[i + scroll].shortName, "DONT TOUCH ME") == 0)
-                                ttfFontColor32(0xFF0000FF);
+                                DrawUtils::setFontColor(static_cast<Color>(0xFF0000FF));
                             if (strlen(titles[i + scroll].shortName) != 0u)
                                 consolePrintPos(M_OFF, i + 2, "   %s %s%s%s", titles[i + scroll].shortName,
                                                 titles[i + scroll].isTitleOnUSB ? "(USB)" : ((mode == WiiU) ? "(NAND)" : ""),
@@ -506,7 +528,7 @@ int main() {
                             else
                                 consolePrintPos(M_OFF, i + 2, "   %08lx%08lx", titles[i + scroll].highID,
                                                 titles[i + scroll].lowID);
-                            ttfFontColor32(0xFFFFFFFF);
+                            DrawUtils::setFontColor(static_cast<Color>(0xFFFFFFFF));
                             if (mode == WiiU) {
                                 if (titles[i + scroll].iconBuf != nullptr) {
                                     drawTGA((M_OFF + 4) * 12 - 2, (i + 3) * 24, 0.18, titles[i + scroll].iconBuf);
@@ -717,8 +739,7 @@ int main() {
             consolePrintPos(0, 16, "----------------------------------------------------------------------------");
             consolePrintPos(0, 17, gettext("Press \ue044 to exit."));
 
-            flipBuffers();
-            WHBLogFreetypeDraw();
+            DrawUtils::endDraw();
             redraw = false;
         }
 
@@ -909,8 +930,7 @@ int main() {
         }
 
         if (input.get(TRIGGER, PAD_BUTTON_A)) {
-            clearBuffers();
-            WHBLogFreetypeDraw();
+            DrawUtils::clear(COLOR_BLACK);
             if (menu < 3) {
                 if (menu == mainMenu) {
                     mode = (Mode) cursor;
@@ -1042,8 +1062,7 @@ int main() {
                 }
             }
         } else if (input.get(TRIGGER, PAD_BUTTON_B) && menu > 0) {
-            clearBuffers();
-            WHBLogFreetypeDraw();
+            DrawUtils::clear(COLOR_BLACK);
             menu--;
             cursor = scroll = 0;
             if (menu == selectTitle) {
@@ -1070,7 +1089,7 @@ int main() {
     gettextCleanUp();
     romfsExit();
 
-    WHBLogFreetypeFree();
+    DrawUtils::deinitFont();
     shutdownState();
     WHBProcShutdown();
     ProcUIShutdown();

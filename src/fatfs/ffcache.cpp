@@ -14,7 +14,7 @@
 #include <chrono>
 #include <mutex>
 
-#include <log_freetype.h>
+#include <utils/DrawUtils.h>
 
 struct sectorCache {
     LBA_t sectorIdx = std::numeric_limits<LBA_t>::max();

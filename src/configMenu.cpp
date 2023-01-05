@@ -12,16 +12,15 @@ static bool redraw = true;
 static std::string language = "";
 
 static void drawConfigMenuFrame() {
-    OSScreenClearBufferEx(SCREEN_DRC, 0x00006F00);
-    OSScreenClearBufferEx(SCREEN_TV, 0x00006F00);
+    DrawUtils::beginDraw();
+    DrawUtils::clear(COLOR_BACKGROUND);
     consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
     consolePrintPos(0, 1, "----------------------------------------------------------------------------");
     consolePrintPos(M_OFF, 2, gettext("   Language: %s"), language.c_str());
     consolePrintPos(M_OFF, 2 + cursorPos, "\u2192");
     consolePrintPos(0, 16, "----------------------------------------------------------------------------");
     consolePrintPos(0, 17, gettext("Press \ue044 to exit."));
-    flipBuffers();
-    WHBLogFreetypeDraw();
+    DrawUtils::endDraw();
 }
 
 void configMenu() {
