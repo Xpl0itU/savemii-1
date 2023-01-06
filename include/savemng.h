@@ -24,6 +24,7 @@
 #define VERSION_MINOR 5
 #define VERSION_MICRO 3
 #define M_OFF         1
+#define Y_OFF         1
 
 #define COLOR_WHITE              Color(0xffffffff)
 #define COLOR_BLACK              Color(0, 0, 0, 255)

@@ -242,7 +242,8 @@ static Title *loadWiiUTitles(int run) {
 
         wiiuTitlesCount++;
 
-        DrawUtils::endDraw();
+        DrawUtils::clear(COLOR_BLACK);
+        DrawUtils::beginDraw();
         disclaimer();
         drawTGA(298, 144, 1, icon_tga);
         consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);
@@ -387,7 +388,8 @@ static Title *loadWiiTitles() {
                     titles[i].iconBuf = nullptr;
                 i++;
 
-                DrawUtils::endDraw();
+                DrawUtils::clear(COLOR_BLACK);
+                DrawUtils::beginDraw();
                 disclaimer();
                 drawTGA(298, 144, 1, icon_tga);
                 consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);
@@ -435,6 +437,7 @@ int main() {
     if (!DrawUtils::initFont()) {
         OSFatal("Failed to init font");
     }
+    
     WPADInit();
     KPADInit();
     WPADEnableURCC(1);
@@ -528,7 +531,7 @@ int main() {
                             else
                                 consolePrintPos(M_OFF, i + 2, "   %08lx%08lx", titles[i + scroll].highID,
                                                 titles[i + scroll].lowID);
-                            DrawUtils::setFontColor(static_cast<Color>(0xFFFFFFFF));
+                            DrawUtils::setFontColor(COLOR_TEXT);
                             if (mode == WiiU) {
                                 if (titles[i + scroll].iconBuf != nullptr) {
                                     drawTGA((M_OFF + 4) * 12 - 2, (i + 3) * 24, 0.18, titles[i + scroll].iconBuf);

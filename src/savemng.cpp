@@ -224,6 +224,7 @@ static bool createFolder(const char *fPath) { //Adapted from mkdir_p made by Jon
 void consolePrintPosAligned(int y, uint16_t offset, uint8_t align, const char *format, ...) {
     char *tmp = NULL;
     int x = 0;
+    y += Y_OFF;
 
     va_list va;
     va_start(va, format);
@@ -250,6 +251,7 @@ void consolePrintPosAligned(int y, uint16_t offset, uint8_t align, const char *f
 
 void consolePrintPos(int x, int y, const char *format, ...) { // Source: ftpiiu
     char *tmp = nullptr;
+    y += Y_OFF;
 
     va_list va;
     va_start(va, format);
@@ -263,6 +265,7 @@ void consolePrintPos(int x, int y, const char *format, ...) { // Source: ftpiiu
 void consolePrintPosMultiline(int x, int y, char cdiv, const char *format, ...) { // Source: ftpiiu
     char *tmp = nullptr;
     uint32_t len = (66 - x);
+    y += Y_OFF;
 
     va_list va;
     va_start(va, format);
@@ -303,7 +306,9 @@ void consolePrintPosMultiline(int x, int y, char cdiv, const char *format, ...) 
 }
 
 bool promptConfirm(Style st, std::string question) {
+    DrawUtils::beginDraw();
     DrawUtils::clear(COLOR_BLACK);
+    DrawUtils::setFontColor(COLOR_TEXT);
     const std::string msg1 = gettext("\ue000 Yes - \ue001 No");
     const std::string msg2 = gettext("\ue000 Confirm - \ue001 Cancel");
     std::string msg;
@@ -318,14 +323,11 @@ bool promptConfirm(Style st, std::string question) {
             msg = msg2;
     }
     if (st & ST_WARNING) {
-        OSScreenClearBufferEx(SCREEN_TV, 0x7F7F0000);
-        OSScreenClearBufferEx(SCREEN_DRC, 0x7F7F0000);
+        DrawUtils::clear(Color(0x7F7F0000));
     } else if (st & ST_ERROR) {
-        OSScreenClearBufferEx(SCREEN_TV, 0x7F000000);
-        OSScreenClearBufferEx(SCREEN_DRC, 0x7F000000);
+        DrawUtils::clear(Color(0x7F000000));
     } else {
-        OSScreenClearBufferEx(SCREEN_TV, 0x007F0000);
-        OSScreenClearBufferEx(SCREEN_DRC, 0x007F0000);
+        DrawUtils::clear(Color(0x007F0000));
     }
     if (!(st & ST_MULTILINE)) {
         consolePrintPos(31 - (DrawUtils::getTextWidth((char *) question.c_str()) / 24), 7, question.c_str());
@@ -494,6 +496,7 @@ static bool copyFileThreaded(FILE *srcFile, FILE *dstFile, size_t totalSize, std
         passedMs = (uint32_t) OSTicksToMilliseconds(OSGetTime() - startTime);
         if (passedMs == 0)
             passedMs = 1; // avoid 0 div
+        DrawUtils::beginDraw();
         DrawUtils::clear(COLOR_BLACK);
         showFileOperation(basename(pPath.c_str()), pPath, oPath);
         consolePrintPos(-2, 15, "Bytes Copied: %d of %d (%i kB/s)", written, totalSize, (uint32_t) (((uint64_t) written * 1000) / ((uint64_t) 1024 * passedMs)));
@@ -545,6 +548,7 @@ static int copyDir(std::string pPath, std::string tPath) { // Source: ft2sd
     auto *data = (dirent *) malloc(sizeof(dirent));
 
     while ((data = readdir(dir)) != nullptr) {
+        DrawUtils::beginDraw();
         DrawUtils::clear(COLOR_BLACK);
 
         if (strcmp(data->d_name, "..") == 0 || strcmp(data->d_name, ".") == 0)
@@ -583,6 +587,7 @@ static bool removeDir(char *pPath) {
     struct dirent *data;
 
     while ((data = readdir(dir)) != NULL) {
+        DrawUtils::beginDraw();
         DrawUtils::clear(COLOR_BLACK);
 
         if (strcmp(data->d_name, "..") == 0 || strcmp(data->d_name, ".") == 0) continue;
@@ -595,6 +600,7 @@ static bool removeDir(char *pPath) {
             sprintf(origPath, "%s", pPath);
             removeDir(pPath);
 
+            DrawUtils::beginDraw();
             DrawUtils::clear(COLOR_BLACK);
 
             consolePrintPos(-2, 0, gettext("Deleting folder %s"), data->d_name);
