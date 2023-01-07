@@ -262,8 +262,7 @@ void consolePrintPos(int x, int y, const char *format, ...) { // Source: ftpiiu
         free(tmp);
 }
 
-void consolePrintPosMultiline(int x, int y, char cdiv, const char* format, ...)
-{
+void consolePrintPosMultiline(int x, int y, char cdiv, const char *format, ...) {
     y += Y_OFF;
 
     va_list args;
@@ -276,22 +275,17 @@ void consolePrintPosMultiline(int x, int y, char cdiv, const char* format, ...)
     std::string result = buffer;
     va_end(args);
 
-    if ((DrawUtils::getTextWidth(result.c_str()) / 12) > (66 - x))
-    {
+    if ((DrawUtils::getTextWidth(result.c_str()) / 12) > (66 - x)) {
         size_t last_div = result.find_last_of(cdiv);
-        if (last_div != std::string::npos)
-        {
+        if (last_div != std::string::npos) {
             std::string first_line = result.substr(0, last_div);
             std::string rest = result.substr(last_div + 1);
             DrawUtils::print((x + 4) * 12, (y + 1) * 24, first_line.c_str());
             consolePrintPosMultiline(x, y + 1, cdiv, rest.c_str());
-        }
-        else
-        {
+        } else {
             size_t line_length = (66 - x) * 12;
             size_t start = 0;
-            while (start < result.size())
-            {
+            while (start < result.size()) {
                 size_t end = start + line_length;
                 if (end > result.size())
                     end = result.size();
@@ -301,9 +295,7 @@ void consolePrintPosMultiline(int x, int y, char cdiv, const char* format, ...)
                 y++;
             }
         }
-    }
-    else
-    {
+    } else {
         DrawUtils::print((x + 4) * 12, (y + 1) * 24, result.c_str());
     }
 }
