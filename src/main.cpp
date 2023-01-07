@@ -242,8 +242,8 @@ static Title *loadWiiUTitles(int run) {
 
         wiiuTitlesCount++;
 
-        DrawUtils::clear(COLOR_BLACK);
         DrawUtils::beginDraw();
+        DrawUtils::clear(COLOR_BLACK);
         disclaimer();
         drawTGA(298, 144, 1, icon_tga);
         consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);
@@ -388,8 +388,8 @@ static Title *loadWiiTitles() {
                     titles[i].iconBuf = nullptr;
                 i++;
 
-                DrawUtils::clear(COLOR_BLACK);
                 DrawUtils::beginDraw();
+                DrawUtils::clear(COLOR_BLACK);
                 disclaimer();
                 drawTGA(298, 144, 1, icon_tga);
                 consolePrintPosAligned(10, 0, 1, gettext("Loaded %i Wii U titles."), wiiuTitlesCount);

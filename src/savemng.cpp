@@ -41,11 +41,11 @@ extern "C" FSClient *__wut_devoptab_fs_client;
 std::string newlibtoFSA(std::string path) {
     if (path.rfind("storage_slccmpt01:", 0) == 0) {
         replace(path, "storage_slccmpt01:", "/vol/storage_slccmpt01");
-    } else if(path.rfind("storage_mlc01:", 0) == 0) {
+    } else if (path.rfind("storage_mlc01:", 0) == 0) {
         replace(path, "storage_mlc01:", "/vol/storage_mlc01");
-    } else if(path.rfind("storage_usb01:", 0) == 0) {
+    } else if (path.rfind("storage_usb01:", 0) == 0) {
         replace(path, "storage_usb01:", "/vol/storage_usb01");
-    } else if(path.rfind("storage_usb02:", 0) == 0) {
+    } else if (path.rfind("storage_usb02:", 0) == 0) {
         replace(path, "storage_usb02:", "/vol/storage_usb02");
     }
     return path;
@@ -262,47 +262,50 @@ void consolePrintPos(int x, int y, const char *format, ...) { // Source: ftpiiu
         free(tmp);
 }
 
-void consolePrintPosMultiline(int x, int y, char cdiv, const char *format, ...) { // Source: ftpiiu
-    char *tmp = nullptr;
-    uint32_t len = (66 - x);
+void consolePrintPosMultiline(int x, int y, char cdiv, const char* format, ...)
+{
     y += Y_OFF;
 
-    va_list va;
-    va_start(va, format);
-    if ((vasprintf(&tmp, format, va) >= 0) && (tmp != nullptr)) {
-        if ((uint32_t) (DrawUtils::getTextWidth(tmp) / 12) > len) {
-            char *p = tmp;
-            if (strrchr(p, '\n') != nullptr)
-                p = strrchr(p, '\n') + 1;
-            while ((uint32_t) (DrawUtils::getTextWidth(p) / 12) > len) {
-                char *q = p;
-                int l1 = strlen(q);
-                for (int i = l1; i > 0; i--) {
-                    char o = q[l1];
-                    q[l1] = '\0';
-                    if ((uint32_t) (DrawUtils::getTextWidth(p) / 12) <= len) {
-                        if (strrchr(p, cdiv) != nullptr)
-                            p = strrchr(p, cdiv) + 1;
-                        else
-                            p = q + l1;
-                        q[l1] = o;
-                        break;
-                    }
-                    q[l1] = o;
-                    l1--;
-                }
-                std::string buf;
-                buf.assign(p);
-                p = (char *) stringFormat("\n%s", buf.c_str()).c_str();
-                p++;
-                len = 69;
+    va_list args;
+    va_start(args, format);
+
+    std::stringstream stream;
+    stream << std::string(format).c_str();
+    char buffer[1024];
+    vsnprintf(buffer, 1024, stream.str().c_str(), args);
+    std::string result = buffer;
+    va_end(args);
+
+    if ((DrawUtils::getTextWidth(result.c_str()) / 12) > (66 - x))
+    {
+        size_t last_div = result.find_last_of(cdiv);
+        if (last_div != std::string::npos)
+        {
+            std::string first_line = result.substr(0, last_div);
+            std::string rest = result.substr(last_div + 1);
+            DrawUtils::print((x + 4) * 12, (y + 1) * 24, first_line.c_str());
+            consolePrintPosMultiline(x, y + 1, cdiv, rest.c_str());
+        }
+        else
+        {
+            size_t line_length = (66 - x) * 12;
+            size_t start = 0;
+            while (start < result.size())
+            {
+                size_t end = start + line_length;
+                if (end > result.size())
+                    end = result.size();
+                std::string line = result.substr(start, end - start);
+                DrawUtils::print((x + 4) * 12, (y + 1) * 24, line.c_str());
+                start = end;
+                y++;
             }
         }
-        DrawUtils::print((x + 4) * 12, (y + 1) * 24, tmp);
     }
-    va_end(va);
-    if (tmp != nullptr)
-        free(tmp);
+    else
+    {
+        DrawUtils::print((x + 4) * 12, (y + 1) * 24, result.c_str());
+    }
 }
 
 bool promptConfirm(Style st, std::string question) {

@@ -169,8 +169,8 @@ bool DrawUtils::initFont() {
     OSGetSharedData(OS_SHAREDDATATYPE_FONT_STANDARD, 0, &font, &size);
 
     if (font && size) {
-        pFont.xScale = 20;
-        pFont.yScale = 20,
+        pFont.xScale = 22;
+        pFont.yScale = 22,
         pFont.flags  = SFT_DOWNWARD_Y;
         pFont.font   = sft_loadmem(font, size);
         if (!pFont.font) {
