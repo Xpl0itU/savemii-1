@@ -101,8 +101,8 @@ std::string getUSB() {
 
 static void showFileOperation(std::string file_name, std::string file_src, std::string file_dest) {
     consolePrintPos(-2, 0, gettext("Copying file: %s"), file_name.c_str());
-    consolePrintPosMultiline(-2, 2, '/', gettext("From: %s"), file_src.c_str());
-    consolePrintPosMultiline(-2, 8, '/', gettext("To: %s"), file_dest.c_str());
+    consolePrintPosMultiline(-2, 2, gettext("From: %s"), file_src.c_str());
+    consolePrintPosMultiline(-2, 8, gettext("To: %s"), file_dest.c_str());
 }
 
 int32_t loadFile(const char *fPath, uint8_t **buf) {
@@ -262,41 +262,43 @@ void consolePrintPos(int x, int y, const char *format, ...) { // Source: ftpiiu
         free(tmp);
 }
 
-void consolePrintPosMultiline(int x, int y, char cdiv, const char *format, ...) {
+std::pair<std::string, std::string> splitString(const std::string &str, char c) {
+    size_t pos = str.rfind(c);
+    if (pos == std::string::npos) {
+        return {str, ""};
+    }
+    return {str.substr(0, pos), str.substr(pos + 1)};
+}
+
+void consolePrintPosMultiline(int x, int y, const char *format, ...) {
+    std::string tmp;
+
+    va_list va;
+    va_start(va, format);
+
+    char buffer[256];
+    vsnprintf(buffer, sizeof(buffer), format, va);
+    tmp = buffer;
+    va_end(va);
+
     y += Y_OFF;
 
-    va_list args;
-    va_start(args, format);
+    uint32_t maxLineLength = (66 - x);
 
-    std::stringstream stream;
-    stream << std::string(format).c_str();
-    char buffer[1024];
-    vsnprintf(buffer, 1024, stream.str().c_str(), args);
-    std::string result = buffer;
-    va_end(args);
-
-    if ((DrawUtils::getTextWidth(result.c_str()) / 12) > (66 - x)) {
-        size_t last_div = result.find_last_of(cdiv);
-        if (last_div != std::string::npos) {
-            std::string first_line = result.substr(0, last_div);
-            std::string rest = result.substr(last_div + 1);
-            DrawUtils::print((x + 4) * 12, (y + 1) * 24, first_line.c_str());
-            consolePrintPosMultiline(x, y + 1, cdiv, rest.c_str());
-        } else {
-            size_t line_length = (66 - x) * 12;
-            size_t start = 0;
-            while (start < result.size()) {
-                size_t end = start + line_length;
-                if (end > result.size())
-                    end = result.size();
-                std::string line = result.substr(start, end - start);
-                DrawUtils::print((x + 4) * 12, (y + 1) * 24, line.c_str());
-                start = end;
-                y++;
+    std::string currentLine;
+    std::istringstream iss(tmp);
+    while (std::getline(iss, currentLine)) {
+        while (DrawUtils::getTextWidth(currentLine.c_str()) / 12 > maxLineLength) {
+            std::size_t spacePos = currentLine.find_last_of(' ', maxLineLength);
+            if (spacePos == std::string::npos) {
+                spacePos = maxLineLength;
             }
+            DrawUtils::print((x + 4) * 12, (y + 1) * 24, currentLine.substr(0, spacePos).c_str());
+            currentLine = currentLine.substr(spacePos + 1);
+            y++;
         }
-    } else {
-        DrawUtils::print((x + 4) * 12, (y + 1) * 24, result.c_str());
+        DrawUtils::print((x + 4) * 12, (y + 1) * 24, currentLine.c_str());
+        y++;
     }
 }
 
@@ -599,11 +601,11 @@ static bool removeDir(char *pPath) {
             DrawUtils::clear(COLOR_BLACK);
 
             consolePrintPos(-2, 0, gettext("Deleting folder %s"), data->d_name);
-            consolePrintPosMultiline(-2, 2, '/', gettext("From: \n%s"), origPath);
+            consolePrintPosMultiline(-2, 2, gettext("From: \n%s"), origPath);
             if (unlink(origPath) == -1) promptError(gettext("Failed to delete folder %s\n%s"), origPath, strerror(errno));
         } else {
             consolePrintPos(-2, 0, gettext("Deleting file %s"), data->d_name);
-            consolePrintPosMultiline(-2, 2, '/', gettext("From: \n%s"), pPath);
+            consolePrintPosMultiline(-2, 2, gettext("From: \n%s"), pPath);
             if (unlink(pPath) == -1) promptError(gettext("Failed to delete file %s\n%s"), pPath, strerror(errno));
         }
 
