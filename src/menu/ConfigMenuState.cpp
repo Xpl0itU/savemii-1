@@ -1,4 +1,4 @@
-#include <configMenu.h>
+#include <menu/ConfigMenuState.h>
 #include <cstring>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>

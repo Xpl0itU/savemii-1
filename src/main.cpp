@@ -1,8 +1,28 @@
-#include <configMenu.h>
+#include <cstdarg>
+#include <cstdlib>
+#include <cstring>
+#include <malloc.h>
+
+#include <algorithm>
+#include <array>
+
+#include <coreinit/ios.h>
+#include <coreinit/mcp.h>
+#include <coreinit/screen.h>
+#include <coreinit/thread.h>
+#include <coreinit/time.h>
+#include <padscore/kpad.h>
+#include <sysapp/launch.h>
+#include <sysapp/title.h>
+#include <vpad/input.h>
+#include <whb/proc.h>
+
+#include <ApplicationState.h>
+#include <menu/configMenu.h>
 #include <icon.h>
 #include <date.h>
-#include <main.h>
 #include <savemng.h>
+#include <menu/MainMenuState.h>
 #include <utils/DrawUtils.h>
 #include <utils/LanguageUtils.h>
 #include <utils/StateUtils.h>
@@ -479,6 +499,7 @@ int main() {
     bool redraw = true;
     int entrycount = 0;
     Input input;
+    std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>();
     while (State::AppRunning()) {
         Title *titles = mode != WiiU ? wiititles : wiiutitles;
         int count = mode != WiiU ? vWiiTitlesCount : wiiuTitlesCount;
@@ -489,6 +510,9 @@ int main() {
 
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
             DrawUtils::drawRectFilled(48, 49, 526, 51, COLOR_WHITE);
+
+            state->update(&input);
+            state->render();
 
             switch (menu) {
                 case mainMenu: {
