@@ -5,15 +5,15 @@
 
 #include <memory>
 
-class MainMenuState : ApplicationState {
+class BatchBackupState : ApplicationState {
 public:
-    MainMenuState(Title *wiiutitles, Title *wiititles, int wiiuTitlesCount, int vWiiTitlesCount) :
+    BatchBackupState(Title *wiiutitles, Title *wiititles, int wiiuTitlesCount, int vWiiTitlesCount) :
         wiiutitles(wiiutitles),
         wiititles(wiititles),
         wiiuTitlesCount(wiiuTitlesCount),
         vWiiTitlesCount(vWiiTitlesCount);
     enum eState {
-        STATE_MAIN_MENU,
+        STATE_BATCH_BACKUP,
         STATE_DO_SUBSTATE,
     };
 
@@ -21,10 +21,7 @@ public:
     ApplicationState::eSubState update(Input *input) override;
 private:
     std::unique_ptr<ApplicationState> subState{};
-    eState state = STATE_MAIN_MENU;
-
-    Title *wiiutitles;
-    Title *wiititles;
+    eState state = STATE_BATCH_BACKUP;
 
     int wiiuTitlesCount;
     int vWiiTitlesCount;

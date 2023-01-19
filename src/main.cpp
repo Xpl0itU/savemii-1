@@ -499,7 +499,7 @@ int main() {
     bool redraw = true;
     int entrycount = 0;
     Input input;
-    std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>();
+    std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(wiiutitles, wiititles, wiiuTitlesCount, vWiiTitlesCount);
     while (State::AppRunning()) {
         Title *titles = mode != WiiU ? wiititles : wiiutitles;
         int count = mode != WiiU ? vWiiTitlesCount : wiiuTitlesCount;

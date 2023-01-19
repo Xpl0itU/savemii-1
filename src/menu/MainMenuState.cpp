@@ -18,10 +18,10 @@ void MainMenuState::render() {
         return;
     }
     if(this->state = STATE_MAIN_MENU) {
-        consolePrintPos(M_OFF, 2, LanguageUtils::gettext("   Wii U Save Management (%u Title%s)"), wiiuTitlesCount,
-                        (wiiuTitlesCount > 1) ? "s" : "");
-        consolePrintPos(M_OFF, 3, LanguageUtils::gettext("   vWii Save Management (%u Title%s)"), vWiiTitlesCount,
-                        (vWiiTitlesCount > 1) ? "s" : "");
+        consolePrintPos(M_OFF, 2, LanguageUtils::gettext("   Wii U Save Management (%u Title%s)"), this->wiiuTitlesCount,
+                        (this->wiiuTitlesCount > 1) ? "s" : "");
+        consolePrintPos(M_OFF, 3, LanguageUtils::gettext("   vWii Save Management (%u Title%s)"), this->vWiiTitlesCount,
+                        (this->vWiiTitlesCount > 1) ? "s" : "");
         consolePrintPos(M_OFF, 4, LanguageUtils::gettext("   Batch Backup"));
         consolePrintPos(M_OFF, 2 + cursor, "\u2192");
         consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\uE002: Options \ue000: Select Mode"));
@@ -42,7 +42,7 @@ ApplicationState::eSubState MainMenuState::update(Input *input) {
                     break;
                 case 2:
                     this->state = STATE_DO_SUBSTATE;
-                    this->subState = std::make_unique<BatchBackupState>();
+                    this->subState = std::make_unique<BatchBackupState>(this->wiiutitles, this->wiititles, this->wiiuTitlesCount, this->vWiiTitlesCount);
                     break;
                 default:
                     break;
@@ -53,9 +53,11 @@ ApplicationState::eSubState MainMenuState::update(Input *input) {
             this->subState = std::make_unique<ConfigMenuState>();
         }
         if(input->get(TRIGGER, PAD_BUTTON_UP))
-            cursor--;
+            if(cursor-- == -1)
+                cursor++;
         if(input->get(TRIGGER, PAD_BUTTON_DOWN))
-            cursor++;
+            if(cursor++ == ENTRYCOUNT + 1)
+                cursor--;
     } else if (this->state == STATE_DO_SUBSTATE) {
         auto retSubState = this->subState->update(input);
         if (retSubState == SUBSTATE_RUNNING) {
