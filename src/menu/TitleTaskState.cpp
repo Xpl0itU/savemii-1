@@ -1,4 +1,5 @@
 #include <menu/TitleTaskState.h>
+#include <menu/TitleOptionsState.h>
 #include <cstring>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
@@ -8,6 +9,9 @@
 
 static int cursorPos = 0;
 static int entrycount;
+static uint8_t slot = 0;
+static int8_t allusers = -1, allusers_d = -1, sdusers = -1;
+static bool common = true;
 
 void TitleTaskState::render() {
     this->isWiiUTitle = this->title.highID != (0x00050000 | 0x00050002);

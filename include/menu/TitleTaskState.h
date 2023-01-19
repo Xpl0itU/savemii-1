@@ -3,12 +3,17 @@
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
 
+#include <savemng.h>
+
 #include <memory>
 
-class TitleTaskState : ApplicationState {
+class TitleTaskState : public ApplicationState {
 public:
     TitleTaskState(Title title) :
-    title(title) {}
+        title(title) {}
+    ~TitleTaskState() {
+        free(this->versionList);
+    }
     enum eState {
         STATE_TITLE_TASKS,
         STATE_DO_SUBSTATE,
@@ -24,4 +29,5 @@ private:
     bool isWiiUTitle;
 
     Task task;
+    int *versionList = (int *) malloc(0x100 * sizeof(int));
 };

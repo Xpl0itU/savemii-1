@@ -7,7 +7,7 @@
 
 #include <memory>
 
-class BatchBackupState : ApplicationState {
+class BatchBackupState : public ApplicationState {
 public:
     BatchBackupState(Title *wiiutitles, Title *wiititles, int wiiuTitlesCount, int vWiiTitlesCount) :
         wiiutitles(wiiutitles),

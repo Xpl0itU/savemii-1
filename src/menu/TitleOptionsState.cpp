@@ -1,7 +1,8 @@
-#include <menu/TitleTaskState.h>
+#include <menu/TitleOptionsState.h>
 #include <cstring>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
+#include <date.h>
 #include <savemng.h>
 
 #include <coreinit/time.h>

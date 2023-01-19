@@ -3,9 +3,11 @@
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
 
+#include <savemng.h>
+
 #include <memory>
 
-class TitleOptionsState : ApplicationState {
+class TitleOptionsState : public ApplicationState {
 public:
     TitleOptionsState(Title title, Task task) :
     title(title),

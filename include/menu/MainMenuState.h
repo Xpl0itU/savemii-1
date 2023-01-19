@@ -3,9 +3,11 @@
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
 
+#include <savemng.h>
+
 #include <memory>
 
-class MainMenuState : ApplicationState {
+class MainMenuState : public ApplicationState {
 public:
     MainMenuState(Title *wiiutitles, Title *wiititles, int wiiuTitlesCount, int vWiiTitlesCount) :
         wiiutitles(wiiutitles),

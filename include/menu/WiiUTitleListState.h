@@ -7,17 +7,13 @@
 #include <savemng.h>
 
 #include <memory>
+#include <vector>
 
-class WiiUTitleListState : ApplicationState {
+class WiiUTitleListState : public ApplicationState {
 public:
     explicit WiiUTitleListState(Title *titles, int titlesCount) :
         titles(titles),
-        titlesCount(titlesCount) {
-            this->sortNames[0] = LanguageUtils::gettext("None");
-            this->sortNames[1] = LanguageUtils::gettext("Name");
-            this->sortNames[2] = LanguageUtils::gettext("Storage");
-            this->sortNames[3] = LanguageUtils::gettext("Storage+Name");
-        }
+        titlesCount(titlesCount) {}
     enum eState {
         STATE_WIIU_TITLE_LIST,
         STATE_DO_SUBSTATE,
@@ -33,7 +29,10 @@ private:
 
     int titlesCount;
 
-    char sortNames[4];
+    std::vector<const char*> sortNames = {LanguageUtils::gettext("None"), 
+                                          LanguageUtils::gettext("Name"),
+                                          LanguageUtils::gettext("Storage"),
+                                          LanguageUtils::gettext("Storage+Name")};
 
     int titleSort = 1;
     int scroll = 0;

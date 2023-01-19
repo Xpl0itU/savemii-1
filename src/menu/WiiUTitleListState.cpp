@@ -1,8 +1,12 @@
 #include <menu/WiiUTitleListState.h>
+#include <menu/TitleTaskState.h>
 #include <cstring>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
+#include <utils/StringUtils.h>
 #include <savemng.h>
+
+#include <algorithm>
 
 #include <coreinit/time.h>
 
@@ -52,7 +56,7 @@ void WiiUTitleListState::render() {
     consolePrintPos(39, 0, LanguageUtils::gettext("%s Sort: %s \ue084"),
                     (this->titleSort > 0) ? ((this->sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
     for (int i = 0; i < MAX_TITLE_SHOW; i++) {
-        if (i + this->scroll < 0 || i + this->scroll >= this->titleCount)
+        if (i + this->scroll < 0 || i + this->scroll >= this->titlesCount)
             break;
         DrawUtils::setFontColor(static_cast<Color>(0x00FF00FF));
         if (!this->titles[i + this->scroll].saveInit)
@@ -81,12 +85,12 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;
-        sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+        sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
     }
     if (input->get(TRIGGER, PAD_BUTTON_L)) {
         if (this->titleSort > 0) {
             this->sortAscending = !this->sortAscending;
-            sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+            sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
         }
     }
     if(input->get(TRIGGER, PAD_BUTTON_A)) {

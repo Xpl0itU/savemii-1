@@ -5,7 +5,7 @@
 
 #include <memory>
 
-class ConfigMenuState : ApplicationState {
+class ConfigMenuState : public ApplicationState {
 public:
     enum eState {
         STATE_CONFIG_MENU,
