@@ -180,6 +180,143 @@ void TitleOptionsState::render() {
 ApplicationState::eSubState TitleOptionsState::update(Input *input) {
     if(input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
-    
+    if(input->get(TRIGGER, PAD_BUTTON_LEFT)) {
+        if (this->task == copytoOtherDevice) {
+            switch (cursorPos) {
+                case 0:
+                    break;
+                case 1:
+                    allusers = ((allusers == -1) ? -1 : (allusers - 1));
+                    allusers_d = allusers;
+                    break;
+                case 2:
+                    allusers_d = (((allusers == -1) || (allusers_d == -1)) ? -1 : (allusers_d - 1));
+                    allusers_d = ((allusers > -1) && (allusers_d == -1)) ? 0 : allusers_d;
+                    break;
+                case 3:
+                    common ^= 1;
+                    break;
+            }
+        } else if (this->task == restore) {
+            switch (cursorPos) {
+                case 0:
+                    slot--;
+                    getAccountsSD(&this->title, slot);
+                    break;
+                case 1:
+                    sdusers = ((sdusers == -1) ? -1 : (sdusers - 1));
+                    allusers = ((sdusers == -1) ? -1 : allusers);
+                    break;
+                case 2:
+                    allusers = (((allusers == -1) || (sdusers == -1)) ? -1 : (allusers - 1));
+                    allusers = ((sdusers > -1) && (allusers == -1)) ? 0 : allusers;
+                    break;
+                case 3:
+                    common ^= 1;
+                    break;
+            }
+        } else if (this->task == wipe) {
+            switch (cursorPos) {
+                case 0:
+                    break;
+                case 1:
+                    allusers = ((allusers == -1) ? -1 : (allusers - 1));
+                    break;
+                case 2:
+                    common ^= 1;
+                    break;
+            }
+        } else if ((this->task == importLoadiine) || (this->task == exportLoadiine)) {
+            switch (cursorPos) {
+                case 0:
+                    slot--;
+                    break;
+                case 1:
+                    common ^= 1;
+                    break;
+            }
+        } else {
+            switch (cursorPos) {
+                case 0:
+                    slot--;
+                    break;
+                case 1:
+                    allusers = ((allusers == -1) ? -1 : (allusers - 1));
+                    break;
+                case 2:
+                    common ^= 1;
+                    break;
+            }
+        }
+    }
+    if(input->get(TRIGGER, PAD_BUTTON_RIGHT)) {
+        if (this->task == copytoOtherDevice) {
+            switch (cursorPos) {
+                case 0:
+                    break;
+                case 1:
+                    allusers = ((allusers == (wiiuaccn - 1)) ? (wiiuaccn - 1) : (allusers + 1));
+                    allusers_d = allusers;
+                    break;
+                case 2:
+                    allusers_d = ((allusers_d == (wiiuaccn - 1)) ? (wiiuaccn - 1) : (allusers_d + 1));
+                    allusers_d = (allusers == -1) ? -1 : allusers_d;
+                    break;
+                case 3:
+                    common ^= 1;
+                    break;
+            }
+        } else if (this->task == restore) {
+            switch (cursorPos) {
+                case 0:
+                    slot++;
+                    getAccountsSD(&this->title, slot);
+                    break;
+                case 1:
+                    sdusers = ((sdusers == (sdaccn - 1)) ? (sdaccn - 1) : (sdusers + 1));
+                    allusers = ((sdusers > -1) && (allusers == -1)) ? 0 : allusers;
+                    break;
+                case 2:
+                    allusers = ((allusers == (wiiuaccn - 1)) ? (wiiuaccn - 1) : (allusers + 1));
+                    allusers = (sdusers == -1) ? -1 : allusers;
+                    break;
+                case 3:
+                    common ^= 1;
+                    break;
+            }
+        } else if (this->task == wipe) {
+            switch (cursorPos) {
+                case 0:
+                    break;
+                case 1:
+                    allusers = ((allusers == (wiiuaccn - 1)) ? (wiiuaccn - 1) : (allusers + 1));
+                    break;
+                case 2:
+                    common ^= 1;
+                    break;
+            }
+        } else if ((this->task == importLoadiine) || (this->task == exportLoadiine)) {
+            switch (cursorPos) {
+                case 0:
+                    slot++;
+                    break;
+                case 1:
+                    common ^= 1;
+                    break;
+            }
+        } else {
+            switch (cursorPos) {
+                case 0:
+                    slot++;
+                    break;
+                case 1:
+                    allusers = ((allusers == (wiiuaccn - 1)) ? (wiiuaccn - 1) : (allusers + 1));
+                    break;
+                case 2:
+                    common ^= 1;
+                    break;
+            }
+        }
+    }
     return SUBSTATE_RUNNING;
 }
