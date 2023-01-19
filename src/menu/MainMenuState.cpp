@@ -29,7 +29,6 @@ void MainMenuState::render() {
 }
 
 ApplicationState::eSubState MainMenuState::update(Input *input) {
-    input->read();
     if (this->state == STATE_MAIN_MENU) {
         if(input->get(TRIGGER, PAD_BUTTON_A)) {
             switch(cursor) {

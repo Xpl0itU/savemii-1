@@ -23,7 +23,6 @@ void ConfigMenuState::render() {
 
 ApplicationState::eSubState ConfigMenuState::update(Input *input) {
     language = LanguageUtils::getLoadedLanguage();
-    input->read();
     if (input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_RIGHT)) {

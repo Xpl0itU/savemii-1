@@ -511,6 +511,7 @@ int main() {
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
             DrawUtils::drawRectFilled(48, 49, 526, 51, COLOR_WHITE);
 
+            input.read();
             state->update(&input);
             state->render();
 
