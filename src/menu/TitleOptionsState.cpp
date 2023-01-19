@@ -89,7 +89,7 @@ void TitleOptionsState::render() {
         }
         if ((task == backup) || (task == restore))
             if (!isSlotEmpty(this->title.highID, this->title.lowID, slot)) {
-                Date *dateObj = new Date(this->titles.highID, this->title.lowID, slot);
+                Date *dateObj = new Date(this->title.highID, this->title.lowID, slot);
                 consolePrintPos(M_OFF, 15, LanguageUtils::gettext("Date: %s"),
                                 dateObj->get().c_str());
                 delete dateObj;
