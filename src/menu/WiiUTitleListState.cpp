@@ -85,8 +85,9 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
     }
     if (input->get(TRIGGER, PAD_BUTTON_L)) {
         if (this->titleSort > 0) {
-        this->sortAscending = !this->sortAscending;
-        sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+            this->sortAscending = !this->sortAscending;
+            sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+        }
     }
     if(input->get(TRIGGER, PAD_BUTTON_A)) {
         this->targ = cursorPos + this->scroll;
