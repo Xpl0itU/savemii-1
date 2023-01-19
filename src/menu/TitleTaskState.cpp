@@ -10,7 +10,7 @@ static int cursorPos = 0;
 static int entrycount;
 
 void TitleTaskState::render() {
-    this->isWiiUTitle = this->title.highID != (0x00050000 | 0x00050002)
+    this->isWiiUTitle = this->title.highID != (0x00050000 | 0x00050002);
     entrycount = 3 + 2 * static_cast<int>(this->isWiiUTitle) + 1 * static_cast<int>(this->isWiiUTitle && (this->title.isTitleDupe));
     consolePrintPos(M_OFF, 2, "   [%08X-%08X] [%s]", this->title.highID, this->title.lowID,
                     this->title.productCode);
