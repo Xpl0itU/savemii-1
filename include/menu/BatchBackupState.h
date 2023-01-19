@@ -23,6 +23,9 @@ private:
     std::unique_ptr<ApplicationState> subState{};
     eState state = STATE_BATCH_BACKUP;
 
+    Title *wiiutitles;
+    Title *wiititles;
+
     int wiiuTitlesCount;
     int vWiiTitlesCount;
 };
