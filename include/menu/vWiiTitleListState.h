@@ -3,6 +3,8 @@
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
 
+#include <utils/LanguageUtils.h>
+
 #include <memory>
 
 class vWiiTitleListState : ApplicationState {
@@ -10,7 +12,10 @@ public:
     vWiiTitleListState(Title *titles, int titlesCount) :
     titles(titles),
     titlesCount(titlesCount) {
-        this->sortn = {LanguageUtils::gettext("None"), LanguageUtils::gettext("Name"), LanguageUtils::gettext("Storage"), LanguageUtils::gettext("Storage+Name")};
+        this->sortNames[0] = LanguageUtils::gettext("None");
+        this->sortNames[1] = LanguageUtils::gettext("Name");
+        this->sortNames[2] = LanguageUtils::gettext("Storage");
+        this->sortNames[3] = LanguageUtils::gettext("Storage+Name");
     }
     enum eState {
         STATE_VWII_TITLE_LIST,

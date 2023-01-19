@@ -1,11 +1,14 @@
 #include <menu/ConfigMenuState.h>
 #include <menu/BatchBackupState.h>
+#include <menu/vWiiTitleListState.h>
 #include <menu/WiiUTitleListState.h>
 #include <menu/MainMenuState.h>
 
 #include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
+
+#include <coreinit/debug.h>
 
 #define ENTRYCOUNT 3
 
@@ -19,7 +22,7 @@ void MainMenuState::render() {
         this->subState->render();
         return;
     }
-    if(this->state = STATE_MAIN_MENU) {
+    if(this->state == STATE_MAIN_MENU) {
         consolePrintPos(M_OFF, 2, LanguageUtils::gettext("   Wii U Save Management (%u Title%s)"), this->wiiuTitlesCount,
                         (this->wiiuTitlesCount > 1) ? "s" : "");
         consolePrintPos(M_OFF, 3, LanguageUtils::gettext("   vWii Save Management (%u Title%s)"), this->vWiiTitlesCount,

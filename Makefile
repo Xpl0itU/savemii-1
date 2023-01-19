@@ -32,7 +32,7 @@ include $(DEVKITPRO)/wut/share/wut_rules
 #-------------------------------------------------------------------------------
 TARGET		:=	savemii
 BUILD		:=	build
-SOURCES		:=	src src/fatfs src/fatfs/extusb_devoptab src/utils
+SOURCES		:=	src src/fatfs src/fatfs/extusb_devoptab src/utils src/menu
 DATA		:=	data
 INCLUDES	:=	include
 CONTENT		:=

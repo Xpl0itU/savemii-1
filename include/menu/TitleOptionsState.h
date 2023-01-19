@@ -9,7 +9,7 @@ class TitleOptionsState : ApplicationState {
 public:
     TitleOptionsState(Title title, Task task) :
     title(title),
-    task(task);
+    task(task) {}
 
     enum eState {
         STATE_TITLE_OPTIONS,

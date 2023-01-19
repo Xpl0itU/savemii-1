@@ -8,7 +8,7 @@
 class TitleTaskState : ApplicationState {
 public:
     TitleTaskState(Title title) :
-    title(title);
+    title(title) {}
     enum eState {
         STATE_TITLE_TASKS,
         STATE_DO_SUBSTATE,

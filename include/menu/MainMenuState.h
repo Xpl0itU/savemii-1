@@ -11,7 +11,7 @@ public:
         wiiutitles(wiiutitles),
         wiititles(wiititles),
         wiiuTitlesCount(wiiuTitlesCount),
-        vWiiTitlesCount(vWiiTitlesCount);
+        vWiiTitlesCount(vWiiTitlesCount) {}
     enum eState {
         STATE_MAIN_MENU,
         STATE_DO_SUBSTATE,

@@ -3,6 +3,8 @@
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
 
+#include <savemng.h>
+
 #include <memory>
 
 class BatchBackupState : ApplicationState {
@@ -11,7 +13,7 @@ public:
         wiiutitles(wiiutitles),
         wiititles(wiititles),
         wiiuTitlesCount(wiiuTitlesCount),
-        vWiiTitlesCount(vWiiTitlesCount);
+        vWiiTitlesCount(vWiiTitlesCount) {}
     enum eState {
         STATE_BATCH_BACKUP,
         STATE_DO_SUBSTATE,
