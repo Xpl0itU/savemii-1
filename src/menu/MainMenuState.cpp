@@ -8,7 +8,6 @@
 #define ENTRYCOUNT 3
 
 static int cursor = 0;
-static bool redraw = true;
 
 void MainMenuState::render() {
     if (this->state == STATE_DO_SUBSTATE) {
