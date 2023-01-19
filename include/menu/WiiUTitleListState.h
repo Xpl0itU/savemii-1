@@ -2,7 +2,6 @@
 
 #include <ApplicationState.h>
 #include <utils/InputUtils.h>
-
 #include <utils/LanguageUtils.h>
 
 #include <savemng.h>

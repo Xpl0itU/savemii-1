@@ -500,6 +500,11 @@ int main() {
     while (State::AppRunning()) {
         Title *titles = mode != WiiU ? wiititles : wiiutitles;
         int count = mode != WiiU ? vWiiTitlesCount : wiiuTitlesCount;
+        
+        input.read();
+
+        if (input.get(TRIGGER, PAD_BUTTON_ANY))
+            redraw = true;
 
         if (redraw) {
             DrawUtils::beginDraw();
@@ -508,7 +513,6 @@ int main() {
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
             DrawUtils::drawRectFilled(48, 49, 526, 51, COLOR_WHITE);
 
-            input.read();
             state->update(&input);
             state->render();
 
@@ -518,9 +522,6 @@ int main() {
             DrawUtils::endDraw();
             redraw = false;
         }
-
-        if (input.get(TRIGGER, PAD_BUTTON_ANY))
-            redraw = true;
     }
 
     unloadTitles(wiiutitles, wiiuTitlesCount);
