@@ -92,11 +92,11 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
     if(input->get(TRIGGER, PAD_BUTTON_A)) {
         this->targ = cursorPos + this->scroll;
         if (this->titles[this->targ].highID == 0 || this->titles[this->targ].lowID == 0)
-            continue;
+            return SUBSTATE_RUNNING;
         if (strcmp(this->titles[this->targ].shortName, "DONT TOUCH ME") == 0) {
             if (!promptConfirm(ST_ERROR, LanguageUtils::gettext("CBHC save. Could be dangerous to modify. Continue?")) ||
                 !promptConfirm(ST_WARNING, LanguageUtils::gettext("Are you REALLY sure?"))) {
-                continue;
+                return SUBSTATE_RUNNING;
             }
         }
         std::string path = StringUtils::stringFormat("%s/usr/title/000%x/%x/code/fw.img",
@@ -104,11 +104,11 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
                                         this->titles[this->targ].lowID);
         if (checkEntry(path.c_str()) != 0)
             if (!promptConfirm(ST_ERROR, LanguageUtils::gettext("vWii saves are in the vWii section. Continue?")))
-                continue;
+                return SUBSTATE_RUNNING;
         if (!this->titles[this->targ].saveInit) {
             if (!promptConfirm(ST_WARNING, LanguageUtils::gettext("Recommended to run Game at least one time. Continue?")) ||
                 !promptConfirm(ST_WARNING, LanguageUtils::gettext("Are you REALLY sure?"))) {
-                continue;
+                return SUBSTATE_RUNNING;
             }
         }
         this->state = STATE_DO_SUBSTATE;
