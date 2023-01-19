@@ -5,6 +5,8 @@
 
 #include <utils/LanguageUtils.h>
 
+#include <savemng.h>
+
 #include <memory>
 
 class WiiUTitleListState : ApplicationState {

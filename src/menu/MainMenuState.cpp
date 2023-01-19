@@ -1,7 +1,7 @@
 #include <menu/ConfigMenuState.h>
 #include <menu/BatchBackupState.h>
-#include <menu/vWiiTitleListState.h>
 #include <menu/WiiUTitleListState.h>
+#include <menu/vWiiTitleListState.h>
 #include <menu/MainMenuState.h>
 
 #include <savemng.h>
