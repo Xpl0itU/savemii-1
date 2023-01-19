@@ -1,4 +1,6 @@
 #include <menu/ConfigMenuState.h>
+#include <menu/BatchBackupState.h>
+#include <menu/WiiUTitleListState.h>
 #include <menu/MainMenuState.h>
 
 #include <savemng.h>
@@ -34,11 +36,11 @@ ApplicationState::eSubState MainMenuState::update(Input *input) {
             switch(cursor) {
                 case 0:
                     this->state = STATE_DO_SUBSTATE;
-                    this->subState = std::make_unique<WiiUTitleListState>();
+                    this->subState = std::make_unique<WiiUTitleListState>(this->wiiutitles, this->wiiuTitlesCount);
                     break;
                 case 1:
                     this->state = STATE_DO_SUBSTATE;
-                    this->subState = std::make_unique<vWiiTitleListState>();
+                    this->subState = std::make_unique<vWiiTitleListState>(this->wiititles, this->vWiiTitlesCount);
                     break;
                 case 2:
                     this->state = STATE_DO_SUBSTATE;
