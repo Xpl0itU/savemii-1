@@ -318,5 +318,26 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
             }
         }
     }
+    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+        switch (this->task) {
+            case backup:
+                backupSavedata(&this->title, slot, allusers, common);
+                break;
+            case restore:
+                restoreSavedata(&this->title, slot, sdusers, allusers, common);
+                break;
+            case wipe:
+                wipeSavedata(&this->title, allusers, common);
+                break;
+            case copytoOtherDevice:
+                for (int i = 0; i < count; i++) {
+                    if (titles[i].listID == this->title.dupeID) {
+                        copySavedata(&this->title, &titles[i], allusers, allusers_d, common);
+                        break;
+                    }
+                }
+                break;
+        }
+    }
     return SUBSTATE_RUNNING;
 }
