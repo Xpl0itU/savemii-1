@@ -83,7 +83,7 @@ static void disclaimer() {
 
 static Title *loadWiiUTitles(int run) {
     char *tList;
-    uint32_t receivedCount;
+    uint32_t receivedCount = 0;
     const std::array<const uint32_t, 2> highIDs = {0x00050000, 0x00050002};
     // Source: haxchi installer
     if (run == 0) {
@@ -137,7 +137,7 @@ static Title *loadWiiUTitles(int run) {
                         path = StringUtils::stringFormat("%s/usr/save/%08x/%s/meta/meta.xml", (i == 0) ? getUSB().c_str() : "storage_mlc01:", highIDs[a],
                                                          data->d_name);
                         if (checkEntry(path.c_str()) == 1) {
-                            for (int i = 0; i < usable; i++) {
+                            for (unsigned int i = 0; i < usable; i++) {
                                 if ((savesl[i].highID == (0x00050000 | 0x00050002)) &&
                                     (strtoul(data->d_name, nullptr, 16) == savesl[i].lowID)) {
                                     savesl[i].found = true;
@@ -186,7 +186,7 @@ static Title *loadWiiUTitles(int run) {
         }
     }
 
-    for (int i = 0; i < usable; i++) {
+    for (unsigned int i = 0; i < usable; i++) {
         if (!savesl[i].found) {
             saves[pos].highID = savesl[i].highID;
             saves[pos].lowID = savesl[i].lowID;
@@ -498,12 +498,12 @@ int main() {
             DrawUtils::clear(COLOR_BACKGROUND);
 
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
-            DrawUtils::drawRectFilled(48, 49, 526, 51, COLOR_WHITE);
+            consolePrintPos(0, 1, "----------------------------------------------------------------------------");
 
             state->update(&input);
             state->render();
 
-            DrawUtils::drawRectFilled(48, 406, 526, 408, COLOR_WHITE);
+            consolePrintPos(0, 16, "----------------------------------------------------------------------------");
             consolePrintPos(0, 17, LanguageUtils::gettext("Press \ue044 to exit."));
 
             DrawUtils::endDraw();
