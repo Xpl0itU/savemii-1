@@ -40,7 +40,7 @@ std::string Date::get() {
     return "";
 }
 
-bool Date::set(std::string date) {
+bool Date::set(const std::string &date) {
     json_t *config = json_object();
     if (config == nullptr)
         return false;

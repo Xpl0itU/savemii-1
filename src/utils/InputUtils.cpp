@@ -15,7 +15,7 @@ void Input::read() {
     }
 }
 
-bool Input::get(ButtonState state, Button button) {
+bool Input::get(ButtonState state, Button button) const {
     uint32_t vpadState = 0;
     uint32_t kpadState = 0;
     uint32_t kpadClassicState = 0;

@@ -72,44 +72,30 @@ std::string LanguageUtils::getLoadedLanguage() {
     switch (loadedLang) {
         case Swkbd_LanguageType__Japanese:
             return gettext("Japanese");
-            break;
         case Swkbd_LanguageType__English:
             return gettext("English");
-            break;
         /*case Swkbd_LanguageType__French:
 			gettextLoadLanguage("romfs:/french.json");
-            break;
 		case Swkbd_LanguageType__German:
-			gettextLoadLanguage("romfs:/german.json");
-            break;*/
+			gettextLoadLanguage("romfs:/german.json");*/
         case Swkbd_LanguageType__Italian:
             return gettext("Italian");
-            break;
         case Swkbd_LanguageType__Spanish:
             return gettext("Spanish");
-            break;
         case Swkbd_LanguageType__Chinese1:
             return gettext("Traditional Chinese");
-            break;
         case Swkbd_LanguageType__Korean:
             return gettext("Korean");
-            break;
-        /*
-		case Swkbd_LanguageType__Dutch:
+        /*case Swkbd_LanguageType__Dutch:
 			gettextLoadLanguage("romfs:/dutch.json");
-            break;
 		case Swkbd_LanguageType__Potuguese:
-			gettextLoadLanguage("romfs:/portuguese.json");
-            break;*/
+			gettextLoadLanguage("romfs:/portuguese.json");*/
         case Swkbd_LanguageType__Russian:
             return gettext("Russian");
-            break;
         case Swkbd_LanguageType__Chinese2:
             return gettext("Simplified Chinese");
-            break;
         default:
             return gettext("English");
-            break;
     }
 }
 
@@ -154,7 +140,7 @@ MSG *LanguageUtils::findMSG(uint32_t id) {
         if (msg->id == id)
             return msg;
 
-    return NULL;
+    return nullptr;
 }
 
 void LanguageUtils::setMSG(const char *msgid, const char *msgstr) {

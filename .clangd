@@ -2,6 +2,5 @@ CompileFlags: # Tweak the parse settings
   Add: 
     - "--include-directory=/opt/devkitpro/wut/include"
     - "--include-directory=/opt/devkitpro/wut/usr/include"
-    - "--include-directory=/opt/devkitpro/portlibs/ppc/include/freetype2"
     - "--include-directory=/home/samuel/savemii/include"
     - "-std=c++20"

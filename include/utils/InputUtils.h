@@ -26,7 +26,7 @@ typedef enum ButtonState {
 class Input {
 public:
     void read() __attribute__((hot));
-    bool get(ButtonState state, Button button) __attribute__((hot));
+    bool get(ButtonState state, Button button) const __attribute__((hot));
 
 private:
     VPADStatus vpad_status;

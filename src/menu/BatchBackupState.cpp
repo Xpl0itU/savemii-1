@@ -1,4 +1,3 @@
-#include <cstring>
 #include <menu/BatchBackupState.h>
 #include <savemng.h>
 #include <utils/InputUtils.h>
@@ -43,6 +42,8 @@ ApplicationState::eSubState BatchBackupState::update(Input *input) {
                 break;
             case 2:
                 backupAllSave(this->wiititles, this->vWiiTitlesCount, nullptr);
+                break;
+            default:
                 break;
         }
     }

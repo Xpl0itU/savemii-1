@@ -36,8 +36,6 @@ static file_buffer buffers[16];
 static char *fileBuf[2];
 static bool buffersInitialized = false;
 
-extern "C" FSClient *__wut_devoptab_fs_client;
-
 std::string newlibtoFSA(std::string path) {
     if (path.rfind("storage_slccmpt01:", 0) == 0) {
         StringUtils::replace(path, "storage_slccmpt01:", "/vol/storage_slccmpt01");
@@ -99,7 +97,7 @@ std::string getUSB() {
     return usb;
 }
 
-static void showFileOperation(std::string file_name, std::string file_src, std::string file_dest) {
+static void showFileOperation(const std::string &file_name, const std::string &file_src, const std::string &file_dest) {
     consolePrintPos(-2, 0, LanguageUtils::gettext("Copying file: %s"), file_name.c_str());
     consolePrintPosMultiline(-2, 2, LanguageUtils::gettext("From: %s"), file_src.c_str());
     consolePrintPosMultiline(-2, 8, LanguageUtils::gettext("To: %s"), file_dest.c_str());
@@ -187,7 +185,7 @@ static bool folderEmpty(const char *fPath) {
             break;
 
     closedir(dir);
-    return c < 3 ? true : false;
+    return c < 3;
 }
 
 static bool createFolder(const char *fPath) { //Adapted from mkdir_p made by JonathonReinhart
@@ -222,7 +220,7 @@ static bool createFolder(const char *fPath) { //Adapted from mkdir_p made by Jon
 }
 
 void consolePrintPosAligned(int y, uint16_t offset, uint8_t align, const char *format, ...) {
-    char *tmp = NULL;
+    char *tmp = nullptr;
     int x = 0;
     y += Y_OFF;
 
@@ -293,7 +291,7 @@ void consolePrintPosMultiline(int x, int y, const char *format, ...) {
     tmp.shrink_to_fit();
 }
 
-bool promptConfirm(Style st, std::string question) {
+bool promptConfirm(Style st, const std::string &question) {
     DrawUtils::beginDraw();
     DrawUtils::clear(COLOR_BLACK);
     DrawUtils::setFontColor(COLOR_TEXT);
@@ -569,12 +567,12 @@ static int copyDir(std::string pPath, std::string tPath) { // Source: ft2sd
 
 static bool removeDir(char *pPath) {
     DIR *dir = opendir(pPath);
-    if (dir == NULL)
+    if (dir == nullptr)
         return false;
 
     struct dirent *data;
 
-    while ((data = readdir(dir)) != NULL) {
+    while ((data = readdir(dir)) != nullptr) {
         DrawUtils::beginDraw();
         DrawUtils::clear(COLOR_BLACK);
 

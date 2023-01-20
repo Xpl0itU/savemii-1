@@ -32,8 +32,6 @@
 #include <proc_ui/procui.h>
 #include <sndcore2/core.h>
 
-static bool sortAscending = true;
-static int tsort = 1;
 static int wiiuTitlesCount = 0, vWiiTitlesCount = 0;
 
 template<class It>
@@ -46,7 +44,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             const auto proj = [](const Title &title) {
                 return std::string_view(title.shortName);
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
@@ -54,7 +52,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             break;
         }
         case 2:
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, &Title::isTitleOnUSB);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, &Title::isTitleOnUSB);
@@ -65,13 +63,15 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
                 return std::make_tuple(title.isTitleOnUSB,
                                        std::string_view(title.shortName));
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
             }
             break;
         }
+        default:
+            break;
     }
 }
 
@@ -82,8 +82,8 @@ static void disclaimer() {
 }
 
 static Title *loadWiiUTitles(int run) {
-    static char *tList;
-    static uint32_t receivedCount;
+    char *tList;
+    uint32_t receivedCount;
     const std::array<const uint32_t, 2> highIDs = {0x00050000, 0x00050002};
     // Source: haxchi installer
     if (run == 0) {
@@ -98,7 +98,7 @@ static Title *loadWiiUTitles(int run) {
         return nullptr;
     }
 
-    int usable = receivedCount;
+    auto usable = receivedCount;
     int j = 0;
     auto *savesl = (Saves *) malloc(receivedCount * sizeof(Saves));
     if (savesl == nullptr) {
@@ -113,7 +113,7 @@ static Title *loadWiiUTitles(int run) {
             continue;
         }
         savesl[j].lowID = *(uint32_t *) (element + 4);
-        savesl[j].dev = static_cast<uint8_t>(!(memcmp(element + 0x56, "usb", 4) == 0));
+        savesl[j].dev = static_cast<uint8_t>((memcmp(element + 0x56, "usb", 4) != 0));
         savesl[j].found = false;
         j++;
     }
@@ -121,7 +121,7 @@ static Title *loadWiiUTitles(int run) {
 
     int foundCount = 0;
     int pos = 0;
-    int tNoSave = usable;
+    auto tNoSave = usable;
     for (int i = 0; i <= 1; i++) {
         for (uint8_t a = 0; a < 2; a++) {
             std::string path = StringUtils::stringFormat("%s/usr/save/%08x", (i == 0) ? getUSB().c_str() : "storage_mlc01:", highIDs[a]);
@@ -271,13 +271,13 @@ static Title *loadWiiUTitles(int run) {
 static Title *loadWiiTitles() {
     std::array<const char *, 3> highIDs = {"00010000", "00010001", "00010004"};
     bool found = false;
-    static const std::array<std::array<const uint32_t, 2>, 7> blacklist = {{{0x00010000, 0x00555044},
-                                                                            {0x00010000, 0x00555045},
-                                                                            {0x00010000, 0x0055504A},
-                                                                            {0x00010000, 0x524F4E45},
-                                                                            {0x00010000, 0x52543445},
-                                                                            {0x00010001, 0x48424344},
-                                                                            {0x00010001, 0x554E454F}}};
+    const std::array<std::array<const uint32_t, 2>, 7> blacklist = {{{0x00010000, 0x00555044},
+                                                                     {0x00010000, 0x00555045},
+                                                                     {0x00010000, 0x0055504A},
+                                                                     {0x00010000, 0x524F4E45},
+                                                                     {0x00010000, 0x52543445},
+                                                                     {0x00010001, 0x48424344},
+                                                                     {0x00010001, 0x554E454F}}};
 
     std::string pathW;
     for (int k = 0; k < 3; k++) {
@@ -480,8 +480,8 @@ int main() {
     Title *wiititles = loadWiiTitles();
     getAccountsWiiU();
 
-    sortTitle(wiiutitles, wiiutitles + wiiuTitlesCount, tsort, sortAscending);
-    sortTitle(wiititles, wiititles + vWiiTitlesCount, tsort, sortAscending);
+    sortTitle(wiiutitles, wiiutitles + wiiuTitlesCount, 1, true);
+    sortTitle(wiititles, wiititles + vWiiTitlesCount, 1, true);
 
     bool redraw = true;
     Input input;

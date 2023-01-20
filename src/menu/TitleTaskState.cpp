@@ -5,8 +5,6 @@
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
 
-#include <coreinit/time.h>
-
 static int cursorPos = 0;
 static int entrycount;
 static uint8_t slot = 0;

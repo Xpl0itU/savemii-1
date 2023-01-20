@@ -7,8 +7,6 @@
 
 #include <algorithm>
 
-#include <coreinit/time.h>
-
 #define MAX_TITLE_SHOW 14
 static int cursorPos = 0;
 
@@ -22,7 +20,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             const auto proj = [](const Title &title) {
                 return std::string_view(title.shortName);
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
@@ -30,7 +28,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             break;
         }
         case 2:
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, &Title::isTitleOnUSB);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, &Title::isTitleOnUSB);
@@ -41,13 +39,15 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
                 return std::make_tuple(title.isTitleOnUSB,
                                        std::string_view(title.shortName));
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
             }
             break;
         }
+        default:
+            break;
     }
 }
 

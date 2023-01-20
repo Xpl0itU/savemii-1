@@ -23,7 +23,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             const auto proj = [](const Title &title) {
                 return std::string_view(title.shortName);
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
@@ -31,7 +31,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
             break;
         }
         case 2:
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, &Title::isTitleOnUSB);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, &Title::isTitleOnUSB);
@@ -42,13 +42,15 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
                 return std::make_tuple(title.isTitleOnUSB,
                                        std::string_view(title.shortName));
             };
-            if (sortAscending == true) {
+            if (sortAscending) {
                 std::ranges::sort(titles, last, std::ranges::less{}, proj);
             } else {
                 std::ranges::sort(titles, last, std::ranges::greater{}, proj);
             }
             break;
         }
+        default:
+            break;
     }
 }
 
@@ -58,7 +60,7 @@ void WiiUTitleListState::render() {
         this->noTitles = true;
     }
     consolePrintPos(39, 0, LanguageUtils::gettext("%s Sort: %s \ue084"),
-                    (this->titleSort > 0) ? ((this->sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
+                    (this->titleSort > 0) ? (this->sortAscending ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
     for (int i = 0; i < MAX_TITLE_SHOW; i++) {
         if (i + this->scroll < 0 || i + this->scroll >= this->titlesCount)
             break;

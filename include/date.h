@@ -11,7 +11,7 @@ public:
                                                    path(StringUtils::stringFormat("sd:/wiiu/backups/%08x%08x/%u/savemiiMeta.json", highID, lowID, slot)) {
     }
     std::string get();
-    bool set(std::string date);
+    bool set(const std::string &date);
 
 private:
     uint32_t highID;

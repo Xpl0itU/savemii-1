@@ -1,11 +1,8 @@
-#include <cstring>
 #include <date.h>
 #include <menu/TitleOptionsState.h>
 #include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-
-#include <coreinit/time.h>
 
 static int cursorPos = 0;
 static int entrycount;

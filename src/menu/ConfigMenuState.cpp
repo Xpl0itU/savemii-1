@@ -1,13 +1,11 @@
-#include <cstring>
 #include <menu/ConfigMenuState.h>
 #include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <utils/StateUtils.h>
 
 static int cursorPos = 0;
 
-static std::string language = "";
+static std::string language;
 
 void ConfigMenuState::render() {
     language = LanguageUtils::getLoadedLanguage();
