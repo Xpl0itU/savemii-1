@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - refactor
-      - fatfs
+      - oop
 
 jobs:
   build-binary:
