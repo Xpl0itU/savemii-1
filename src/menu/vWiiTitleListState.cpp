@@ -1,8 +1,11 @@
 #include <menu/vWiiTitleListState.h>
+#include <menu/TitleTaskState.h>
 #include <cstring>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
 #include <savemng.h>
+
+#include <algorithm>
 
 #include <coreinit/time.h>
 
@@ -50,7 +53,7 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
 
 void vWiiTitleListState::render() {
     consolePrintPos(39, 0, LanguageUtils::gettext("%s Sort: %s \ue084"),
-                    (tsort > 0) ? ((sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
+                    (titleSort > 0) ? ((sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
     for (int i = 0; i < 14; i++) {
         if (i + this->scroll < 0 || i + this->scroll >= this->titlesCount)
             break;
@@ -72,7 +75,7 @@ void vWiiTitleListState::render() {
                         titles[i + this->scroll].iconBuf);
         }
     }
-    consolePrintPos(-3, 2 + cursor, "\u2192");
+    consolePrintPos(-3, 2 + cursorPos, "\u2192");
     consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Select Game  \ue001: Back"));
 }
 
@@ -81,12 +84,12 @@ ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;
-        sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+        sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
     }
     if (input->get(TRIGGER, PAD_BUTTON_L)) {
         if (this->titleSort > 0) {
             this->sortAscending = !this->sortAscending;
-            sortTitle(this->titles, this->titles + this->count, this->titleSort, this->sortAscending);
+            sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
         }
     }
     if(input->get(TRIGGER, PAD_BUTTON_A)) {
@@ -100,7 +103,7 @@ ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
             }
         }
         this->state = STATE_DO_SUBSTATE;
-        this->subState = std::make_unique<TitleTaskState>(this->titles[this->targ]);
+        this->subState = std::make_unique<TitleTaskState>(this->titles[this->targ], this->titles, this->titlesCount);
     }
     return SUBSTATE_RUNNING;
 }

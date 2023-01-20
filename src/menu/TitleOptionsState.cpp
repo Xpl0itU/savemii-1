@@ -9,6 +9,7 @@
 
 static int cursorPos = 0;
 static int entrycount;
+static uint8_t slot = 0;
 
 void TitleOptionsState::render() {
     this->isWiiUTitle = this->title.highID != (0x00050000 | 0x00050002);
@@ -22,8 +23,8 @@ void TitleOptionsState::render() {
     } else if (this->task > 2) {
         entrycount = 2;
         consolePrintPos(M_OFF, 4, LanguageUtils::gettext("Select %s:"), LanguageUtils::gettext("version"));
-        consolePrintPos(M_OFF, 5, "   < v%u >", versionList != nullptr ? versionList[slot] : 0);
-    } else if (task == wipe) {
+        consolePrintPos(M_OFF, 5, "   < v%u >", this->versionList != nullptr ? this->versionList[slot] : 0);
+    } else if (this->task == wipe) {
         consolePrintPos(M_OFF, 4, LanguageUtils::gettext("Delete from:"));
         consolePrintPos(M_OFF, 5, "    (%s)", this->title.isTitleOnUSB ? "USB" : "NAND");
     } else {
@@ -57,12 +58,12 @@ void TitleOptionsState::render() {
 
         if (task == wipe) {
             consolePrintPos(M_OFF, 7, LanguageUtils::gettext("Select Wii U user to delete from:"));
-            if (allusers == -1)
+            if (this->allusers == -1)
                 consolePrintPos(M_OFF, 8, "   < %s >", LanguageUtils::gettext("all users"));
             else
-                consolePrintPos(M_OFF, 8, "   < %s (%s) > (%s)", wiiuacc[allusers].miiName,
-                                wiiuacc[allusers].persistentID,
-                                hasAccountSave(&this->title, false, false, wiiuacc[allusers].pID,
+                consolePrintPos(M_OFF, 8, "   < %s (%s) > (%s)", wiiuacc[this->allusers].miiName,
+                                wiiuacc[this->allusers].persistentID,
+                                hasAccountSave(&this->title, false, false, wiiuacc[this->allusers].pID,
                                                 slot, 0)
                                         ? LanguageUtils::gettext("Has Save")
                                         : LanguageUtils::gettext("Empty"));
@@ -74,7 +75,7 @@ void TitleOptionsState::render() {
             else {
                 consolePrintPos(M_OFF, (task == restore) ? 10 : 7, LanguageUtils::gettext("Select Wii U user%s:"),
                                 (task == copytoOtherDevice) ? LanguageUtils::gettext(" to copy from") : ((task == restore) ? LanguageUtils::gettext(" to copy to") : ""));
-                if (allusers == -1)
+                if (this->allusers == -1)
                     consolePrintPos(M_OFF, (task == restore) ? 11 : 8, "   < %s >", LanguageUtils::gettext("all users"));
                 else
                     consolePrintPos(M_OFF, (task == restore) ? 11 : 8, "   < %s (%s) > (%s)",
@@ -82,8 +83,8 @@ void TitleOptionsState::render() {
                                     hasAccountSave(&this->title,
                                                     (!((task == backup) || (task == restore) || (task == copytoOtherDevice))),
                                                     (!((task < 3) || (task == copytoOtherDevice))),
-                                                    wiiuacc[allusers].pID, slot,
-                                                    versionList != nullptr ? versionList[slot] : 0)
+                                                    wiiuacc[this->allusers].pID, slot,
+                                                    this->versionList != nullptr ? this->versionList[slot] : 0)
                                             ? LanguageUtils::gettext("Has Save")
                                             : LanguageUtils::gettext("Empty"));
             }
@@ -111,11 +112,11 @@ void TitleOptionsState::render() {
         }
 
         if ((task != importLoadiine) && (task != exportLoadiine)) {
-            if (allusers > -1) {
+            if (this->allusers > -1) {
                 if (hasCommonSave(&this->title,
                                     (!((task == backup) || (task == wipe) || (task == copytoOtherDevice))),
                                     (!((task < 3) || (task == copytoOtherDevice))), slot,
-                                    versionList != nullptr ? versionList[slot] : 0)) {
+                                    this->versionList != nullptr ? this->versionList[slot] : 0)) {
                     consolePrintPos(M_OFF, (task == restore) || (task == copytoOtherDevice) ? 13 : 10,
                                     LanguageUtils::gettext("Include 'common' save?"));
                     consolePrintPos(M_OFF, (task == restore) || (task == copytoOtherDevice) ? 14 : 11, "   < %s >",
@@ -131,7 +132,7 @@ void TitleOptionsState::render() {
                 entrycount--;
             }
         } else {
-            if (hasCommonSave(&this->title, true, true, slot, versionList != nullptr ? versionList[slot] : 0)) {
+            if (hasCommonSave(&this->title, true, true, slot, this->versionList != nullptr ? this->versionList[slot] : 0)) {
                 consolePrintPos(M_OFF, 7, LanguageUtils::gettext("Include 'common' save?"));
                 consolePrintPos(M_OFF, 8, "   < %s >", common ? LanguageUtils::gettext("yes") : LanguageUtils::gettext("no "));
             } else {
@@ -141,7 +142,7 @@ void TitleOptionsState::render() {
             }
         }
 
-        consolePrintPos(M_OFF, 5 + cursor * 3, "\u2192");
+        consolePrintPos(M_OFF, 5 + cursorPos * 3, "\u2192");
         if (this->title.iconBuf != nullptr)
             DrawUtils::drawTGA(660, 100, 1, this->title.iconBuf);
     } else {
@@ -187,12 +188,12 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
                 case 0:
                     break;
                 case 1:
-                    allusers = ((allusers == -1) ? -1 : (allusers - 1));
-                    allusers_d = allusers;
+                    this->allusers = ((this->allusers == -1) ? -1 : (this->allusers - 1));
+                    allusers_d = this->allusers;
                     break;
                 case 2:
-                    allusers_d = (((allusers == -1) || (allusers_d == -1)) ? -1 : (allusers_d - 1));
-                    allusers_d = ((allusers > -1) && (allusers_d == -1)) ? 0 : allusers_d;
+                    allusers_d = (((this->allusers == -1) || (allusers_d == -1)) ? -1 : (allusers_d - 1));
+                    allusers_d = ((this->allusers > -1) && (allusers_d == -1)) ? 0 : allusers_d;
                     break;
                 case 3:
                     common ^= 1;
@@ -206,7 +207,7 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
                     break;
                 case 1:
                     sdusers = ((sdusers == -1) ? -1 : (sdusers - 1));
-                    allusers = ((sdusers == -1) ? -1 : allusers);
+                    this->allusers = ((sdusers == -1) ? -1 : this->allusers);
                     break;
                 case 2:
                     allusers = (((allusers == -1) || (sdusers == -1)) ? -1 : (allusers - 1));
@@ -331,7 +332,7 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
                 wipeSavedata(&this->title, allusers, common);
                 break;
             case copytoOtherDevice:
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < this->titleCount; i++) {
                     if (titles[i].listID == this->title.dupeID) {
                         copySavedata(&this->title, &titles[i], allusers, allusers_d, common);
                         break;

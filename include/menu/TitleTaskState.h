@@ -9,8 +9,10 @@
 
 class TitleTaskState : public ApplicationState {
 public:
-    TitleTaskState(Title title) :
-        title(title) {}
+    TitleTaskState(Title title, Title *titles, int titlesCount) :
+        title(title),
+        titles(titles),
+        titlesCount(titlesCount) {}
     ~TitleTaskState() {
         free(this->versionList);
     }
@@ -26,6 +28,8 @@ private:
     eState state = STATE_TITLE_TASKS;
 
     Title title;
+    Title *titles;
+    int titlesCount;
     bool isWiiUTitle;
 
     Task task;

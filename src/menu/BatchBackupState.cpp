@@ -17,22 +17,22 @@ void BatchBackupState::render() {
                     (this->wiiuTitlesCount > 1) ? "s" : "");
     consolePrintPos(M_OFF, 4, LanguageUtils::gettext("   Backup vWii (%u Title%s)"), this->vWiiTitlesCount,
                     (this->vWiiTitlesCount > 1) ? "s" : "");
-    consolePrintPos(M_OFF, 2 + cursor, "\u2192");
+    consolePrintPos(M_OFF, 2 + cursorPos, "\u2192");
     consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Backup  \ue001: Back"));
 }
 
 ApplicationState::eSubState BatchBackupState::update(Input *input) {
     if(input->get(TRIGGER, PAD_BUTTON_UP))
-        if(cursor-- == -1)
-            cursor++;
+        if(cursorPos-- == -1)
+            cursorPos++;
     if(input->get(TRIGGER, PAD_BUTTON_DOWN))
-        if(cursor++ == ENTRYCOUNT + 1)
-            cursor--;
+        if(cursorPos++ == ENTRYCOUNT + 1)
+            cursorPos--;
     if(input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
     if(input->get(TRIGGER, PAD_BUTTON_A)) {
         OSCalendarTime dateTime;
-        switch (cursor) {
+        switch (cursorPos) {
             case 0:
                 dateTime.tm_year = 0;
                 backupAllSave(this->wiiutitles, this->wiiuTitlesCount, &dateTime);

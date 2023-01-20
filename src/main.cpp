@@ -487,7 +487,6 @@ int main() {
     DrawUtils::endDraw();
     Title *wiiutitles = loadWiiUTitles(1);
     Title *wiititles = loadWiiTitles();
-    int *versionList = (int *) malloc(0x100 * sizeof(int));
     getAccountsWiiU();
 
     sortTitle(wiiutitles, wiiutitles + wiiuTitlesCount, tsort, sortAscending);
@@ -526,7 +525,6 @@ int main() {
 
     unloadTitles(wiiutitles, wiiuTitlesCount);
     unloadTitles(wiititles, vWiiTitlesCount);
-    free(versionList);
 
     deinitFS();
     LanguageUtils::gettextCleanUp();

@@ -9,9 +9,16 @@
 
 class TitleOptionsState : public ApplicationState {
 public:
-    TitleOptionsState(Title title, Task task) :
+    TitleOptionsState(Title title, Task task, int *versionList, int8_t sdusers, int8_t allusers, bool common, int8_t allusers_d, Title *titles, int titleCount) :
     title(title),
-    task(task) {}
+    task(task),
+    versionList(versionList),
+    sdusers(sdusers),
+    allusers(allusers),
+    common(common),
+    allusers_d(allusers_d),
+    titles(titles),
+    titleCount(titleCount) {}
 
     enum eState {
         STATE_TITLE_OPTIONS,
@@ -26,6 +33,16 @@ private:
 
     Title title;
     Task task;
+
+    int *versionList;
+
+    int8_t sdusers;
+    int8_t allusers;
+    bool common;
+    int8_t allusers_d;
+
+    Title *titles;
+    int titleCount;
 
     bool isWiiUTitle;
 };

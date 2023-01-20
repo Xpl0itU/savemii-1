@@ -93,7 +93,7 @@ ApplicationState::eSubState TitleTaskState::update(Input *input) {
         }
         if(noError) {
             this->state = STATE_DO_SUBSTATE;
-            this->subState = std::make_unique<TitleOptionsState>(this->title, this->task);
+            this->subState = std::make_unique<TitleOptionsState>(this->title, this->task, this->versionList, sdusers, allusers, common, allusers_d, this->titles, this->titlesCount);
         }
     }
     

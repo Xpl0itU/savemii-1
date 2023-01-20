@@ -116,7 +116,7 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
             }
         }
         this->state = STATE_DO_SUBSTATE;
-        this->subState = std::make_unique<TitleTaskState>(this->titles[this->targ]);
+        this->subState = std::make_unique<TitleTaskState>(this->titles[this->targ], this->titles, this->titlesCount);
     }
     return SUBSTATE_RUNNING;
 }
