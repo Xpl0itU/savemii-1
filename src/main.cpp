@@ -488,6 +488,8 @@ int main() {
     while (State::AppRunning()) {
         input.read();
 
+        DrawUtils::setRedraw(false);
+
         if (input.get(TRIGGER, PAD_BUTTON_ANY))
             DrawUtils::setRedraw(true);
 
@@ -505,7 +507,6 @@ int main() {
             consolePrintPos(0, 17, LanguageUtils::gettext("Press \ue044 to exit."));
 
             DrawUtils::endDraw();
-            DrawUtils::setRedraw(false);
         }
     }
 
