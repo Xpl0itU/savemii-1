@@ -23,11 +23,11 @@ void BatchBackupState::render() {
 
 ApplicationState::eSubState BatchBackupState::update(Input *input) {
     if(input->get(TRIGGER, PAD_BUTTON_UP))
-        if(cursorPos-- == -1)
-            cursorPos++;
+        if(--cursorPos == -1)
+            ++cursorPos;
     if(input->get(TRIGGER, PAD_BUTTON_DOWN))
-        if(cursorPos++ == ENTRYCOUNT + 1)
-            cursorPos--;
+        if(++cursorPos == ENTRYCOUNT)
+            --cursorPos;
     if(input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
     if(input->get(TRIGGER, PAD_BUTTON_A)) {

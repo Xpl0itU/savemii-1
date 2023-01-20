@@ -53,6 +53,10 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
 }
 
 void WiiUTitleListState::render() {
+    if ((this->titles == nullptr) || (this->titlesCount == 0)) {
+        promptError(LanguageUtils::gettext("No Wii U titles found."));
+        this->noTitles = true;
+    }
     consolePrintPos(39, 0, LanguageUtils::gettext("%s Sort: %s \ue084"),
                     (this->titleSort > 0) ? ((this->sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
     for (int i = 0; i < MAX_TITLE_SHOW; i++) {
@@ -81,7 +85,7 @@ void WiiUTitleListState::render() {
 }
 
 ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B))
+    if(input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;

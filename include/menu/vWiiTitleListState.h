@@ -37,4 +37,6 @@ private:
     int scroll = 0;
     bool sortAscending = true;
     int targ = 0;
+
+    bool noTitles = false;
 };

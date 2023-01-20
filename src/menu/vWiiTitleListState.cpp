@@ -52,6 +52,10 @@ static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = tr
 }
 
 void vWiiTitleListState::render() {
+    if ((this->titles == nullptr) || (this->titlesCount == 0)) {
+        promptError(LanguageUtils::gettext("No vWii titles found."));
+        this->noTitles = true;
+    }
     consolePrintPos(39, 0, LanguageUtils::gettext("%s Sort: %s \ue084"),
                     (titleSort > 0) ? ((sortAscending == true) ? "\ue083 \u2193" : "\ue083 \u2191") : "", this->sortNames[this->titleSort]);
     for (int i = 0; i < 14; i++) {
@@ -80,7 +84,7 @@ void vWiiTitleListState::render() {
 }
 
 ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B))
+    if(input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;
