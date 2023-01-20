@@ -32,18 +32,9 @@
 #include <proc_ui/procui.h>
 #include <sndcore2/core.h>
 
-static uint8_t slot = 0;
-static int8_t allusers = -1, allusers_d = -1, sdusers = -1;
-static bool common = true;
-static Menu menu = mainMenu;
-static Mode mode;
-static Task task;
 static bool sortAscending = true;
-static int targ = 0, tsort = 1;
-static int cursor = 0, scroll = 0;
-static int cursorb = 0, cursort = 0, scrollb = 0;
+static int tsort = 1;
 static int wiiuTitlesCount = 0, vWiiTitlesCount = 0;
-static std::array<const char *, 4> sortn;
 
 template<class It>
 static void sortTitle(It titles, It last, int tsort = 1, bool sortAscending = true) {
@@ -493,12 +484,9 @@ int main() {
     sortTitle(wiititles, wiititles + vWiiTitlesCount, tsort, sortAscending);
 
     bool redraw = true;
-    int entrycount = 0;
     Input input;
     std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(wiiutitles, wiititles, wiiuTitlesCount, vWiiTitlesCount);
     while (State::AppRunning()) {
-        Title *titles = mode != WiiU ? wiititles : wiiutitles;
-        int count = mode != WiiU ? vWiiTitlesCount : wiiuTitlesCount;
         
         input.read();
 
