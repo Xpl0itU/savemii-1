@@ -36,15 +36,18 @@ ApplicationState::eSubState BatchBackupState::update(Input *input) {
                 dateTime.tm_year = 0;
                 backupAllSave(this->wiiutitles, this->wiiuTitlesCount, &dateTime);
                 backupAllSave(this->wiititles, this->vWiiTitlesCount, &dateTime);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             case 1:
                 backupAllSave(this->wiiutitles, this->wiiuTitlesCount, nullptr);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             case 2:
                 backupAllSave(this->wiititles, this->vWiiTitlesCount, nullptr);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             default:
-                break;
+                return SUBSTATE_RETURN;
         }
     }
     return SUBSTATE_RUNNING;

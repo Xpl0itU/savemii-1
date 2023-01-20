@@ -483,17 +483,15 @@ int main() {
     sortTitle(wiiutitles, wiiutitles + wiiuTitlesCount, 1, true);
     sortTitle(wiititles, wiititles + vWiiTitlesCount, 1, true);
 
-    bool redraw = true;
     Input input;
     std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(wiiutitles, wiititles, wiiuTitlesCount, vWiiTitlesCount);
     while (State::AppRunning()) {
-
         input.read();
 
         if (input.get(TRIGGER, PAD_BUTTON_ANY))
-            redraw = true;
+            DrawUtils::setRedraw(true);
 
-        if (redraw) {
+        if (DrawUtils::getRedraw()) {
             DrawUtils::beginDraw();
             DrawUtils::clear(COLOR_BACKGROUND);
 
@@ -507,7 +505,7 @@ int main() {
             consolePrintPos(0, 17, LanguageUtils::gettext("Press \ue044 to exit."));
 
             DrawUtils::endDraw();
-            redraw = false;
+            DrawUtils::setRedraw(false);
         }
     }
 

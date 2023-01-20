@@ -32,6 +32,10 @@ union Color {
 
 class DrawUtils {
 public:
+    static void setRedraw(bool value);
+
+    static bool getRedraw() { return redraw; }
+
     static void initBuffers(void *tvBuffer, uint32_t tvSize, void *drcBuffer, uint32_t drcSize);
 
     static void beginDraw();
@@ -85,6 +89,7 @@ public:
     static void drawRGB5A3(int x, int y, float scale, uint8_t *fileContent);
 
 private:
+    static bool redraw;
     static bool isBackBuffer;
 
     static uint8_t *tvBuffer;

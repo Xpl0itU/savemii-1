@@ -9,7 +9,7 @@ static int entrycount;
 static uint8_t slot = 0;
 
 void TitleOptionsState::render() {
-    this->isWiiUTitle = this->title.highID != (0x00050000 | 0x00050002);
+    this->isWiiUTitle = (this->title.highID == 0x00050000) || (this->title.highID == 0x00050002);
     entrycount = 3;
     consolePrintPos(M_OFF, 2, "[%08X-%08X] %s", this->title.highID, this->title.lowID,
                     this->title.shortName);
@@ -317,25 +317,37 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
             }
         }
     }
+    if (input->get(TRIGGER, PAD_BUTTON_DOWN)) {
+        if (entrycount <= 14)
+            cursorPos = (cursorPos + 1) % entrycount;
+    } else if (input->get(TRIGGER, PAD_BUTTON_UP)) {
+        if (cursorPos > 0)
+            --cursorPos;
+    }
     if (input->get(TRIGGER, PAD_BUTTON_A)) {
         switch (this->task) {
             case backup:
                 backupSavedata(&this->title, slot, allusers, common);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             case restore:
                 restoreSavedata(&this->title, slot, sdusers, allusers, common);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             case wipe:
                 wipeSavedata(&this->title, allusers, common);
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
             case copytoOtherDevice:
                 for (int i = 0; i < this->titleCount; i++) {
                     if (titles[i].listID == this->title.dupeID) {
                         copySavedata(&this->title, &titles[i], allusers, allusers_d, common);
-                        break;
+                        DrawUtils::setRedraw(true);
+                        return SUBSTATE_RETURN;
                     }
                 }
-                break;
+                DrawUtils::setRedraw(true);
+                return SUBSTATE_RETURN;
         }
     }
     return SUBSTATE_RUNNING;

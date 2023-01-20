@@ -118,6 +118,7 @@ ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
                     return SUBSTATE_RUNNING;
                 }
             }
+            DrawUtils::setRedraw(true);
             this->state = STATE_DO_SUBSTATE;
             this->subState = std::make_unique<TitleTaskState>(this->titles[this->targ], this->titles, this->titlesCount);
         }
