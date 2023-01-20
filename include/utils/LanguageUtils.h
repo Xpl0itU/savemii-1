@@ -39,6 +39,7 @@ public:
     static Swkbd_LanguageType getSystemLanguage() __attribute__((cold));
     static void gettextCleanUp() __attribute__((__cold__));
     static const char *gettext(const char *msg) __attribute__((__hot__));
+
 private:
     static bool gettextLoadLanguage(const char *langFile);
     static uint32_t hash_string(const char *str_param);

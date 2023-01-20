@@ -11,9 +11,8 @@
 
 class WiiUTitleListState : public ApplicationState {
 public:
-    explicit WiiUTitleListState(Title *titles, int titlesCount) :
-        titles(titles),
-        titlesCount(titlesCount) {}
+    explicit WiiUTitleListState(Title *titles, int titlesCount) : titles(titles),
+                                                                  titlesCount(titlesCount) {}
     enum eState {
         STATE_WIIU_TITLE_LIST,
         STATE_DO_SUBSTATE,
@@ -21,6 +20,7 @@ public:
 
     void render() override;
     ApplicationState::eSubState update(Input *input) override;
+
 private:
     std::unique_ptr<ApplicationState> subState{};
     eState state = STATE_WIIU_TITLE_LIST;
@@ -29,10 +29,10 @@ private:
 
     int titlesCount;
 
-    std::vector<const char*> sortNames = {LanguageUtils::gettext("None"), 
-                                          LanguageUtils::gettext("Name"),
-                                          LanguageUtils::gettext("Storage"),
-                                          LanguageUtils::gettext("Storage+Name")};
+    std::vector<const char *> sortNames = {LanguageUtils::gettext("None"),
+                                           LanguageUtils::gettext("Name"),
+                                           LanguageUtils::gettext("Storage"),
+                                           LanguageUtils::gettext("Storage+Name")};
 
     int titleSort = 1;
     int scroll = 0;

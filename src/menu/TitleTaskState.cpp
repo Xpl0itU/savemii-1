@@ -1,9 +1,9 @@
-#include <menu/TitleTaskState.h>
-#include <menu/TitleOptionsState.h>
 #include <cstring>
+#include <menu/TitleOptionsState.h>
+#include <menu/TitleTaskState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <savemng.h>
 
 #include <coreinit/time.h>
 
@@ -30,18 +30,17 @@ void TitleTaskState::render() {
                             this->title.isTitleOnUSB ? "NAND" : "USB");
         if (this->title.iconBuf != nullptr)
             DrawUtils::drawTGA(660, 80, 1, this->title.iconBuf);
-    } else
-        if (this->title.iconBuf != nullptr)
-            DrawUtils::drawRGB5A3(645, 80, 1, this->title.iconBuf);
+    } else if (this->title.iconBuf != nullptr)
+        DrawUtils::drawRGB5A3(645, 80, 1, this->title.iconBuf);
     consolePrintPos(M_OFF, 2 + 3 + cursorPos, "\u2192");
     consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Select Task  \ue001: Back"));
 }
 
 ApplicationState::eSubState TitleTaskState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B))
+    if (input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
-    
-    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+
+    if (input->get(TRIGGER, PAD_BUTTON_A)) {
         bool noError = true;
         this->task = (Task) cursorPos;
 
@@ -68,7 +67,7 @@ ApplicationState::eSubState TitleTaskState::update(Input *input) {
         if ((this->task == importLoadiine) || (this->task == exportLoadiine)) {
             char gamePath[PATH_SIZE];
             memset(versionList, 0, 0x100 * sizeof(int));
-            if(getLoadiineGameSaveDir(gamePath, this->title.productCode, this->title.longName, this->title.highID, this->title.lowID) != 0) {
+            if (getLoadiineGameSaveDir(gamePath, this->title.productCode, this->title.longName, this->title.highID, this->title.lowID) != 0) {
                 noError = false;
                 return SUBSTATE_RUNNING;
             }
@@ -91,11 +90,11 @@ ApplicationState::eSubState TitleTaskState::update(Input *input) {
                 noError = false;
             }
         }
-        if(noError) {
+        if (noError) {
             this->state = STATE_DO_SUBSTATE;
             this->subState = std::make_unique<TitleOptionsState>(this->title, this->task, this->versionList, sdusers, allusers, common, allusers_d, this->titles, this->titlesCount);
         }
     }
-    
+
     return SUBSTATE_RUNNING;
 }

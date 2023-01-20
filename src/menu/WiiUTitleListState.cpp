@@ -1,10 +1,10 @@
-#include <menu/WiiUTitleListState.h>
-#include <menu/TitleTaskState.h>
 #include <cstring>
+#include <menu/TitleTaskState.h>
+#include <menu/WiiUTitleListState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
 #include <utils/StringUtils.h>
-#include <savemng.h>
 
 #include <algorithm>
 
@@ -85,7 +85,7 @@ void WiiUTitleListState::render() {
 }
 
 ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
+    if (input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;
@@ -97,7 +97,7 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
             sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
         }
     }
-    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+    if (input->get(TRIGGER, PAD_BUTTON_A)) {
         this->targ = cursorPos + this->scroll;
         if (this->titles[this->targ].highID == 0 || this->titles[this->targ].lowID == 0)
             return SUBSTATE_RUNNING;
@@ -108,8 +108,8 @@ ApplicationState::eSubState WiiUTitleListState::update(Input *input) {
             }
         }
         std::string path = StringUtils::stringFormat("%s/usr/title/000%x/%x/code/fw.img",
-                                        (this->titles[this->targ].isTitleOnUSB) ? getUSB().c_str() : "storage_mlc01:", this->titles[this->targ].highID,
-                                        this->titles[this->targ].lowID);
+                                                     (this->titles[this->targ].isTitleOnUSB) ? getUSB().c_str() : "storage_mlc01:", this->titles[this->targ].highID,
+                                                     this->titles[this->targ].lowID);
         if (checkEntry(path.c_str()) != 0)
             if (!promptConfirm(ST_ERROR, LanguageUtils::gettext("vWii saves are in the vWii section. Continue?")))
                 return SUBSTATE_RUNNING;

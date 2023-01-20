@@ -9,10 +9,9 @@
 
 class TitleTaskState : public ApplicationState {
 public:
-    TitleTaskState(Title title, Title *titles, int titlesCount) :
-        title(title),
-        titles(titles),
-        titlesCount(titlesCount) {}
+    TitleTaskState(Title title, Title *titles, int titlesCount) : title(title),
+                                                                  titles(titles),
+                                                                  titlesCount(titlesCount) {}
     ~TitleTaskState() {
         free(this->versionList);
     }
@@ -23,6 +22,7 @@ public:
 
     void render() override;
     ApplicationState::eSubState update(Input *input) override;
+
 private:
     std::unique_ptr<ApplicationState> subState{};
     eState state = STATE_TITLE_TASKS;

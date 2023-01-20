@@ -1,8 +1,8 @@
-#include <menu/BatchBackupState.h>
 #include <cstring>
+#include <menu/BatchBackupState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <savemng.h>
 
 #include <coreinit/time.h>
 
@@ -22,15 +22,15 @@ void BatchBackupState::render() {
 }
 
 ApplicationState::eSubState BatchBackupState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_UP))
-        if(--cursorPos == -1)
+    if (input->get(TRIGGER, PAD_BUTTON_UP))
+        if (--cursorPos == -1)
             ++cursorPos;
-    if(input->get(TRIGGER, PAD_BUTTON_DOWN))
-        if(++cursorPos == ENTRYCOUNT)
+    if (input->get(TRIGGER, PAD_BUTTON_DOWN))
+        if (++cursorPos == ENTRYCOUNT)
             --cursorPos;
-    if(input->get(TRIGGER, PAD_BUTTON_B))
+    if (input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
-    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+    if (input->get(TRIGGER, PAD_BUTTON_A)) {
         OSCalendarTime dateTime;
         switch (cursorPos) {
             case 0:

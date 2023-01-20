@@ -18,15 +18,15 @@
 #include <whb/proc.h>
 
 #include <ApplicationState.h>
-#include <icon.h>
 #include <date.h>
-#include <savemng.h>
+#include <icon.h>
 #include <menu/MainMenuState.h>
+#include <savemng.h>
 #include <utils/DrawUtils.h>
+#include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
 #include <utils/StateUtils.h>
 #include <utils/StringUtils.h>
-#include <utils/InputUtils.h>
 
 #include <coreinit/debug.h>
 #include <proc_ui/procui.h>
@@ -135,7 +135,7 @@ static Title *loadWiiUTitles(int run) {
                     path = StringUtils::stringFormat("%s/usr/save/%08x/%s/user", (i == 0) ? getUSB().c_str() : "storage_mlc01:", highIDs[a], data->d_name);
                     if (checkEntry(path.c_str()) == 2) {
                         path = StringUtils::stringFormat("%s/usr/save/%08x/%s/meta/meta.xml", (i == 0) ? getUSB().c_str() : "storage_mlc01:", highIDs[a],
-                                            data->d_name);
+                                                         data->d_name);
                         if (checkEntry(path.c_str()) == 1) {
                             for (int i = 0; i < usable; i++) {
                                 if ((savesl[i].highID == (0x00050000 | 0x00050002)) &&
@@ -172,7 +172,7 @@ static Title *loadWiiUTitles(int run) {
                         continue;
 
                     path = StringUtils::stringFormat("%s/usr/save/%08x/%s/meta/meta.xml", (i == 0) ? getUSB().c_str() : "storage_mlc01:", highIDs[a],
-                                        data->d_name);
+                                                     data->d_name);
                     if (checkEntry(path.c_str()) == 1) {
                         saves[pos].highID = highIDs[a];
                         saves[pos].lowID = strtoul(data->d_name, nullptr, 16);
@@ -208,7 +208,7 @@ static Title *loadWiiUTitles(int run) {
         bool isTitleOnUSB = saves[i].dev == 0u;
 
         const std::string path = StringUtils::stringFormat("%s/usr/%s/%08x/%08x/meta/meta.xml", isTitleOnUSB ? getUSB().c_str() : "storage_mlc01:",
-                                              saves[i].found ? "title" : "save", highID, lowID);
+                                                           saves[i].found ? "title" : "save", highID, lowID);
         titles[wiiuTitlesCount].saveInit = !saves[i].found;
 
         char *xmlBuf = nullptr;
@@ -428,7 +428,7 @@ int main() {
     AXQuit();
     OSScreenInit();
 
-    uint32_t tvBufferSize  = OSScreenGetBufferSizeEx(SCREEN_TV);
+    uint32_t tvBufferSize = OSScreenGetBufferSizeEx(SCREEN_TV);
     uint32_t drcBufferSize = OSScreenGetBufferSizeEx(SCREEN_DRC);
 
     auto *screenBuffer = (uint8_t *) memalign(0x100, tvBufferSize + drcBufferSize);
@@ -448,7 +448,7 @@ int main() {
     if (!DrawUtils::initFont()) {
         OSFatal("Failed to init font");
     }
-    
+
     WPADInit();
     KPADInit();
     WPADEnableURCC(1);
@@ -487,7 +487,7 @@ int main() {
     Input input;
     std::unique_ptr<MainMenuState> state = std::make_unique<MainMenuState>(wiiutitles, wiititles, wiiuTitlesCount, vWiiTitlesCount);
     while (State::AppRunning()) {
-        
+
         input.read();
 
         if (input.get(TRIGGER, PAD_BUTTON_ANY))

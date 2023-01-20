@@ -34,8 +34,7 @@ public:
         SUBSTATE_RUNNING,
         SUBSTATE_RETURN,
     };
-    
+
     virtual void render() = 0;
     virtual eSubState update(Input *input) = 0;
-
 };

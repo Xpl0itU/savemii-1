@@ -2,9 +2,9 @@
 
 #include <coreinit/core.h>
 #include <coreinit/dynload.h>
+#include <coreinit/foreground.h>
 #include <proc_ui/procui.h>
 #include <sysapp/launch.h>
-#include <coreinit/foreground.h>
 #include <whb/proc.h>
 
 bool State::aroma = false;
@@ -12,7 +12,7 @@ bool State::aroma = false;
 void State::init() {
     OSDynLoad_Module mod;
     aroma = OSDynLoad_Acquire("homebrew_kernel", &mod) == OS_DYNLOAD_OK;
-    if(aroma) {
+    if (aroma) {
         OSDynLoad_Release(mod);
         ProcUIInit(&OSSavesDone_ReadyToRelease);
         OSEnableHomeButtonMenu(true);
@@ -21,7 +21,7 @@ void State::init() {
 }
 
 bool State::AppRunning() {
-    if(aroma) {
+    if (aroma) {
         bool app = true;
         if (OSIsMainCore()) {
             switch (ProcUIProcessMessages(true)) {
@@ -49,7 +49,7 @@ bool State::AppRunning() {
 }
 
 void State::shutdown() {
-    if(!aroma)
+    if (!aroma)
         WHBProcShutdown();
     ProcUIShutdown();
 }

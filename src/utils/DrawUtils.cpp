@@ -1,10 +1,10 @@
 #include <tga_reader.h>
 #include <utils/DrawUtils.h>
 
-#include <memory>
 #include <coreinit/cache.h>
 #include <coreinit/screen.h>
 #include <cstdlib>
+#include <memory>
 
 #include <cstring>
 
@@ -15,11 +15,11 @@
 
 bool DrawUtils::isBackBuffer;
 
-uint8_t *DrawUtils::tvBuffer  = nullptr;
-uint32_t DrawUtils::tvSize    = 0;
+uint8_t *DrawUtils::tvBuffer = nullptr;
+uint32_t DrawUtils::tvSize = 0;
 uint8_t *DrawUtils::drcBuffer = nullptr;
-uint32_t DrawUtils::drcSize   = 0;
-static SFT pFont              = {};
+uint32_t DrawUtils::drcSize = 0;
+static SFT pFont = {};
 
 static Color font_col(0xFFFFFFFF);
 
@@ -39,10 +39,10 @@ std::shared_ptr<T> make_shared_nothrow(Args &&...args) noexcept(noexcept(T(std::
 }
 
 void DrawUtils::initBuffers(void *tvBuffer_, uint32_t tvSize_, void *drcBuffer_, uint32_t drcSize_) {
-    DrawUtils::tvBuffer  = (uint8_t *) tvBuffer_;
-    DrawUtils::tvSize    = tvSize_;
+    DrawUtils::tvBuffer = (uint8_t *) tvBuffer_;
+    DrawUtils::tvSize = tvSize_;
     DrawUtils::drcBuffer = (uint8_t *) drcBuffer_;
-    DrawUtils::drcSize   = drcSize_;
+    DrawUtils::drcSize = drcSize_;
 }
 
 void DrawUtils::beginDraw() {
@@ -84,21 +84,21 @@ void DrawUtils::drawPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t 
             i += drcSize / 2;
         }
         if (a == 0xFF) {
-            drcBuffer[i]     = r;
+            drcBuffer[i] = r;
             drcBuffer[i + 1] = g;
             drcBuffer[i + 2] = b;
         } else {
-            drcBuffer[i]     = r * opacity + drcBuffer[i] * (1 - opacity);
+            drcBuffer[i] = r * opacity + drcBuffer[i] * (1 - opacity);
             drcBuffer[i + 1] = g * opacity + drcBuffer[i + 1] * (1 - opacity);
             drcBuffer[i + 2] = b * opacity + drcBuffer[i + 2] * (1 - opacity);
         }
     }
 
     uint32_t USED_TV_WIDTH = TV_WIDTH;
-    float scale            = 1.5f;
+    float scale = 1.5f;
     if (DrawUtils::tvSize == 0x00FD2000) {
         USED_TV_WIDTH = 1920;
-        scale         = 2.25f;
+        scale = 2.25f;
     }
 
     // scale and put pixel in the tv buffer
@@ -110,11 +110,11 @@ void DrawUtils::drawPixel(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t 
                     i += tvSize / 2;
                 }
                 if (a == 0xFF) {
-                    tvBuffer[i]     = r;
+                    tvBuffer[i] = r;
                     tvBuffer[i + 1] = g;
                     tvBuffer[i + 2] = b;
                 } else {
-                    tvBuffer[i]     = r * opacity + tvBuffer[i] * (1 - opacity);
+                    tvBuffer[i] = r * opacity + tvBuffer[i] * (1 - opacity);
                     tvBuffer[i + 1] = g * opacity + tvBuffer[i + 1] * (1 - opacity);
                     tvBuffer[i + 2] = b * opacity + tvBuffer[i + 2] * (1 - opacity);
                 }
@@ -153,8 +153,8 @@ void DrawUtils::drawBitmap(uint32_t x, uint32_t y, uint32_t target_width, uint32
     }
 
     uint32_t dataPos = __builtin_bswap32(*(uint32_t *) &(data[0x0A]));
-    uint32_t width   = __builtin_bswap32(*(uint32_t *) &(data[0x12]));
-    uint32_t height  = __builtin_bswap32(*(uint32_t *) &(data[0x16]));
+    uint32_t width = __builtin_bswap32(*(uint32_t *) &(data[0x12]));
+    uint32_t height = __builtin_bswap32(*(uint32_t *) &(data[0x16]));
 
     if (dataPos == 0) {
         dataPos = 54;
@@ -173,15 +173,15 @@ void DrawUtils::drawBitmap(uint32_t x, uint32_t y, uint32_t target_width, uint32
 }
 
 bool DrawUtils::initFont() {
-    void *font    = nullptr;
+    void *font = nullptr;
     uint32_t size = 0;
     OSGetSharedData(OS_SHAREDDATATYPE_FONT_STANDARD, 0, &font, &size);
 
     if (font && size) {
         pFont.xScale = 22;
         pFont.yScale = 22,
-        pFont.flags  = SFT_DOWNWARD_Y;
-        pFont.font   = sft_loadmem(font, size);
+        pFont.flags = SFT_DOWNWARD_Y;
+        pFont.font = sft_loadmem(font, size);
         if (!pFont.font) {
             return false;
         }
@@ -192,15 +192,15 @@ bool DrawUtils::initFont() {
 }
 
 bool DrawUtils::setFont(OSSharedDataType fontType) {
-    void *font    = nullptr;
+    void *font = nullptr;
     uint32_t size = 0;
     OSGetSharedData(fontType, 0, &font, &size);
 
     if (font && size) {
         pFont.xScale = 22;
         pFont.yScale = 22,
-        pFont.flags  = SFT_DOWNWARD_Y;
-        pFont.font   = sft_loadmem(font, size);
+        pFont.flags = SFT_DOWNWARD_Y;
+        pFont.font = sft_loadmem(font, size);
         if (!pFont.font) {
             return false;
         }
@@ -213,7 +213,7 @@ bool DrawUtils::setFont(OSSharedDataType fontType) {
 void DrawUtils::deinitFont() {
     sft_freefont(pFont.font);
     pFont.font = nullptr;
-    pFont      = {};
+    pFont = {};
 }
 
 void DrawUtils::setFontSize(uint32_t size) {
@@ -286,12 +286,12 @@ void DrawUtils::print(uint32_t x, uint32_t y, const wchar_t *string, bool alignR
                 continue;
             }
 
-            textureWidth  = (mtx.minWidth + 3) & ~3;
+            textureWidth = (mtx.minWidth + 3) & ~3;
             textureHeight = mtx.minHeight;
 
             SFT_Image img = {
                     .pixels = nullptr,
-                    .width  = textureWidth,
+                    .width = textureWidth,
                     .height = textureHeight,
             };
 
@@ -428,10 +428,10 @@ void DrawUtils::drawRGB5A3(int x, int y, float scale, uint8_t *fileContent) {
                     npos = ((si - i) / scale) + ((pos / scale) * 4);
                     if ((pixels[npos] & 0x8000) != 0) {
                         color.color = ((pixels[npos] & 0x7C00) << 17) | ((pixels[npos] & 0x3E0) << 14) |
-                                  ((pixels[npos] & 0x1F) << 11) | 0xFF;
+                                      ((pixels[npos] & 0x1F) << 11) | 0xFF;
                     } else {
                         color.color = (((pixels[npos] & 0xF00) * 0x11) << 16) | (((pixels[npos] & 0xF0) * 0x11) << 12) |
-                                  (((pixels[npos] & 0xF) * 0x11) << 8) | (((pixels[npos] & 0x7000) >> 12) * 0x24);
+                                      (((pixels[npos] & 0xF) * 0x11) << 8) | (((pixels[npos] & 0x7000) >> 12) * 0x24);
                     }
                     DrawUtils::drawPixel(si, sj, color);
                 }

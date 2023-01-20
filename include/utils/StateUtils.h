@@ -5,6 +5,7 @@ public:
     static void init();
     static bool AppRunning();
     static void shutdown();
+
 private:
     static bool aroma;
 };

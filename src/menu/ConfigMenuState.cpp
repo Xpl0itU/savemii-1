@@ -1,8 +1,8 @@
-#include <menu/ConfigMenuState.h>
 #include <cstring>
+#include <menu/ConfigMenuState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <savemng.h>
 #include <utils/StateUtils.h>
 
 static int cursorPos = 0;

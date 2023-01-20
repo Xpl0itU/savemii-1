@@ -1,9 +1,9 @@
-#include <menu/vWiiTitleListState.h>
-#include <menu/TitleTaskState.h>
 #include <cstring>
+#include <menu/TitleTaskState.h>
+#include <menu/vWiiTitleListState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <savemng.h>
 
 #include <algorithm>
 
@@ -76,7 +76,7 @@ void vWiiTitleListState::render() {
         DrawUtils::setFontColor(COLOR_TEXT);
         if (titles[i + this->scroll].iconBuf != nullptr) {
             DrawUtils::drawRGB5A3((M_OFF + 2) * 12 - 2, (i + 3) * 24 + 3, 0.25,
-                        titles[i + this->scroll].iconBuf);
+                                  titles[i + this->scroll].iconBuf);
         }
     }
     consolePrintPos(-3, 2 + cursorPos, "\u2192");
@@ -84,7 +84,7 @@ void vWiiTitleListState::render() {
 }
 
 ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
+    if (input->get(TRIGGER, PAD_BUTTON_B) || noTitles)
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_R)) {
         this->titleSort = (this->titleSort + 1) % 4;
@@ -96,7 +96,7 @@ ApplicationState::eSubState vWiiTitleListState::update(Input *input) {
             sortTitle(this->titles, this->titles + this->titlesCount, this->titleSort, this->sortAscending);
         }
     }
-    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+    if (input->get(TRIGGER, PAD_BUTTON_A)) {
         this->targ = cursorPos + this->scroll;
         if (this->titles[this->targ].highID == 0 || this->titles[this->targ].lowID == 0)
             return SUBSTATE_RUNNING;

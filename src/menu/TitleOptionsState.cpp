@@ -1,9 +1,9 @@
-#include <menu/TitleOptionsState.h>
 #include <cstring>
+#include <date.h>
+#include <menu/TitleOptionsState.h>
+#include <savemng.h>
 #include <utils/InputUtils.h>
 #include <utils/LanguageUtils.h>
-#include <date.h>
-#include <savemng.h>
 
 #include <coreinit/time.h>
 
@@ -33,11 +33,11 @@ void TitleOptionsState::render() {
         if (((this->title.highID & 0xFFFFFFF0) == 0x00010000) && (slot == 255))
             consolePrintPos(M_OFF, 5, "   < SaveGame Manager GX > (%s)",
                             isSlotEmpty(this->title.highID, this->title.lowID, slot) ? LanguageUtils::gettext("Empty")
-                                                                                        : LanguageUtils::gettext("Used"));
+                                                                                     : LanguageUtils::gettext("Used"));
         else
             consolePrintPos(M_OFF, 5, "   < %03u > (%s)", slot,
                             isSlotEmpty(this->title.highID, this->title.lowID, slot) ? LanguageUtils::gettext("Empty")
-                                                                                        : LanguageUtils::gettext("Used"));
+                                                                                     : LanguageUtils::gettext("Used"));
     }
 
     if (this->isWiiUTitle) {
@@ -50,7 +50,7 @@ void TitleOptionsState::render() {
                 else
                     consolePrintPos(M_OFF, 8, "   < %s > (%s)", sdacc[sdusers].persistentID,
                                     hasAccountSave(&this->title, true, false, sdacc[sdusers].pID,
-                                                    slot, 0)
+                                                   slot, 0)
                                             ? LanguageUtils::gettext("Has Save")
                                             : LanguageUtils::gettext("Empty"));
             }
@@ -64,7 +64,7 @@ void TitleOptionsState::render() {
                 consolePrintPos(M_OFF, 8, "   < %s (%s) > (%s)", wiiuacc[this->allusers].miiName,
                                 wiiuacc[this->allusers].persistentID,
                                 hasAccountSave(&this->title, false, false, wiiuacc[this->allusers].pID,
-                                                slot, 0)
+                                               slot, 0)
                                         ? LanguageUtils::gettext("Has Save")
                                         : LanguageUtils::gettext("Empty"));
         }
@@ -81,10 +81,10 @@ void TitleOptionsState::render() {
                     consolePrintPos(M_OFF, (task == restore) ? 11 : 8, "   < %s (%s) > (%s)",
                                     wiiuacc[allusers].miiName, wiiuacc[allusers].persistentID,
                                     hasAccountSave(&this->title,
-                                                    (!((task == backup) || (task == restore) || (task == copytoOtherDevice))),
-                                                    (!((task < 3) || (task == copytoOtherDevice))),
-                                                    wiiuacc[this->allusers].pID, slot,
-                                                    this->versionList != nullptr ? this->versionList[slot] : 0)
+                                                   (!((task == backup) || (task == restore) || (task == copytoOtherDevice))),
+                                                   (!((task < 3) || (task == copytoOtherDevice))),
+                                                   wiiuacc[this->allusers].pID, slot,
+                                                   this->versionList != nullptr ? this->versionList[slot] : 0)
                                             ? LanguageUtils::gettext("Has Save")
                                             : LanguageUtils::gettext("Empty"));
             }
@@ -106,7 +106,7 @@ void TitleOptionsState::render() {
                 consolePrintPos(M_OFF, 11, "   < %s (%s) > (%s)", wiiuacc[allusers_d].miiName,
                                 wiiuacc[allusers_d].persistentID,
                                 hasAccountSave(&titles[this->title.dupeID], false, false,
-                                                wiiuacc[allusers_d].pID, 0, 0)
+                                               wiiuacc[allusers_d].pID, 0, 0)
                                         ? LanguageUtils::gettext("Has Save")
                                         : LanguageUtils::gettext("Empty"));
         }
@@ -114,9 +114,9 @@ void TitleOptionsState::render() {
         if ((task != importLoadiine) && (task != exportLoadiine)) {
             if (this->allusers > -1) {
                 if (hasCommonSave(&this->title,
-                                    (!((task == backup) || (task == wipe) || (task == copytoOtherDevice))),
-                                    (!((task < 3) || (task == copytoOtherDevice))), slot,
-                                    this->versionList != nullptr ? this->versionList[slot] : 0)) {
+                                  (!((task == backup) || (task == wipe) || (task == copytoOtherDevice))),
+                                  (!((task < 3) || (task == copytoOtherDevice))), slot,
+                                  this->versionList != nullptr ? this->versionList[slot] : 0)) {
                     consolePrintPos(M_OFF, (task == restore) || (task == copytoOtherDevice) ? 13 : 10,
                                     LanguageUtils::gettext("Include 'common' save?"));
                     consolePrintPos(M_OFF, (task == restore) || (task == copytoOtherDevice) ? 14 : 11, "   < %s >",
@@ -180,9 +180,9 @@ void TitleOptionsState::render() {
 }
 
 ApplicationState::eSubState TitleOptionsState::update(Input *input) {
-    if(input->get(TRIGGER, PAD_BUTTON_B))
+    if (input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
-    if(input->get(TRIGGER, PAD_BUTTON_LEFT)) {
+    if (input->get(TRIGGER, PAD_BUTTON_LEFT)) {
         if (this->task == copytoOtherDevice) {
             switch (cursorPos) {
                 case 0:
@@ -251,7 +251,7 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
             }
         }
     }
-    if(input->get(TRIGGER, PAD_BUTTON_RIGHT)) {
+    if (input->get(TRIGGER, PAD_BUTTON_RIGHT)) {
         if (this->task == copytoOtherDevice) {
             switch (cursorPos) {
                 case 0:
@@ -320,7 +320,7 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
             }
         }
     }
-    if(input->get(TRIGGER, PAD_BUTTON_A)) {
+    if (input->get(TRIGGER, PAD_BUTTON_A)) {
         switch (this->task) {
             case backup:
                 backupSavedata(&this->title, slot, allusers, common);
