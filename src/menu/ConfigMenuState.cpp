@@ -10,19 +10,12 @@ static int cursorPos = 0;
 static std::string language = "";
 
 void ConfigMenuState::render() {
-    DrawUtils::beginDraw();
-    DrawUtils::clear(COLOR_BACKGROUND);
-    consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
-    DrawUtils::drawRectFilled(48, 49, 526, 51, COLOR_WHITE);
+    language = LanguageUtils::getLoadedLanguage();
     consolePrintPos(M_OFF, 2, LanguageUtils::gettext("   Language: %s"), language.c_str());
     consolePrintPos(M_OFF, 2 + cursorPos, "\u2192");
-    DrawUtils::drawRectFilled(48, 406, 526, 408, COLOR_WHITE);
-    consolePrintPos(0, 17, LanguageUtils::gettext("Press \ue044 to exit."));
-    DrawUtils::endDraw();
 }
 
 ApplicationState::eSubState ConfigMenuState::update(Input *input) {
-    language = LanguageUtils::getLoadedLanguage();
     if (input->get(TRIGGER, PAD_BUTTON_B))
         return SUBSTATE_RETURN;
     if (input->get(TRIGGER, PAD_BUTTON_RIGHT)) {
