@@ -488,8 +488,6 @@ int main() {
     while (State::AppRunning()) {
         input.read();
 
-        DrawUtils::setRedraw(false);
-
         if (input.get(TRIGGER, PAD_BUTTON_ANY))
             DrawUtils::setRedraw(true);
 
@@ -499,6 +497,8 @@ int main() {
 
             consolePrintPos(0, 0, "SaveMii v%u.%u.%u", VERSION_MAJOR, VERSION_MINOR, VERSION_MICRO);
             consolePrintPos(0, 1, "----------------------------------------------------------------------------");
+
+            DrawUtils::setRedraw(false);
 
             state->update(&input);
             state->render();
