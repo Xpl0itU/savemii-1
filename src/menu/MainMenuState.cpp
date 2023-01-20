@@ -12,7 +12,7 @@
 
 #define ENTRYCOUNT 3
 
-static int cursor = 0;
+static int cursorPos = 0;
 
 void MainMenuState::render() {
     if (this->state == STATE_DO_SUBSTATE) {
@@ -28,7 +28,7 @@ void MainMenuState::render() {
         consolePrintPos(M_OFF, 3, LanguageUtils::gettext("   vWii Save Management (%u Title%s)"), this->vWiiTitlesCount,
                         (this->vWiiTitlesCount > 1) ? "s" : "");
         consolePrintPos(M_OFF, 4, LanguageUtils::gettext("   Batch Backup"));
-        consolePrintPos(M_OFF, 2 + cursor, "\u2192");
+        consolePrintPos(M_OFF, 2 + cursorPos, "\u2192");
         consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\uE002: Options \ue000: Select Mode"));
     }
 }
@@ -36,7 +36,7 @@ void MainMenuState::render() {
 ApplicationState::eSubState MainMenuState::update(Input *input) {
     if (this->state == STATE_MAIN_MENU) {
         if(input->get(TRIGGER, PAD_BUTTON_A)) {
-            switch(cursor) {
+            switch(cursorPos) {
                 case 0:
                     this->state = STATE_DO_SUBSTATE;
                     this->subState = std::make_unique<WiiUTitleListState>(this->wiiutitles, this->wiiuTitlesCount);
@@ -58,11 +58,11 @@ ApplicationState::eSubState MainMenuState::update(Input *input) {
             this->subState = std::make_unique<ConfigMenuState>();
         }
         if(input->get(TRIGGER, PAD_BUTTON_UP))
-            if(cursor-- == -1)
-                cursor++;
+            if(--cursorPos == -1)
+                ++cursorPos;
         if(input->get(TRIGGER, PAD_BUTTON_DOWN))
-            if(cursor++ == ENTRYCOUNT + 1)
-                cursor--;
+            if(++cursorPos == ENTRYCOUNT)
+                --cursorPos;
     } else if (this->state == STATE_DO_SUBSTATE) {
         auto retSubState = this->subState->update(input);
         if (retSubState == SUBSTATE_RUNNING) {
