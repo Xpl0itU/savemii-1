@@ -19,7 +19,6 @@ Account *wiiuacc;
 Account *sdacc;
 uint8_t wiiuaccn = 0, sdaccn = 5;
 
-std::chrono::system_clock::time_point oneSecond = std::chrono::system_clock::now() + std::chrono::seconds(1);
 static size_t written = 0;
 
 static FSAClientHandle handle;
@@ -487,7 +486,7 @@ static bool copyFileThreaded(FILE *srcFile, FILE *dstFile, size_t totalSize, std
         showFileOperation(basename(pPath.c_str()), pPath, oPath);
         consolePrintPos(-2, 15, "Bytes Copied: %d of %d (%i kB/s)", written, totalSize, (uint32_t) (((uint64_t) written * 1000) / ((uint64_t) 1024 * passedMs)));
         DrawUtils::endDraw();
-    } while (std::future_status::ready != writeFut.wait_until(oneSecond));
+    } while (std::future_status::ready != writeFut.wait_for(std::chrono::milliseconds(0)));
     bool success = readFut.get() && writeFut.get();
     return success;
 }
