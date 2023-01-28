@@ -1,12 +1,6 @@
 name: CI-Release
 
-on:
-  pull_request:
-    types: [ opened, reopened ]
-  push:
-    branches:
-      - refactor
-      - fixNotInit
+on: [ push, pull_request ]
 
 jobs:
   build-binary:

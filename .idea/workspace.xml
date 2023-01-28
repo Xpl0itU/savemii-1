@@ -20,9 +20,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd5b4787-c551-419c-863c-d8c1ace05c7d" name="Changes" comment="extusb -&gt; sd">
+    <list default="true" id="cd5b4787-c551-419c-863c-d8c1ace05c7d" name="Changes" comment="First try at docker cache">
       <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,7 +176,7 @@
       <workItem from="1674916660601" duration="96000" />
       <workItem from="1674917085144" duration="1066000" />
       <workItem from="1674925255552" duration="1785000" />
-      <workItem from="1674927071227" duration="928000" />
+      <workItem from="1674927071227" duration="1156000" />
     </task>
     <task id="LOCAL-00001" summary="Fix creating meta folder">
       <created>1674660690550</created>
@@ -235,7 +234,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674927115326</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="First try at docker cache">
+      <created>1674928009189</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1674928009189</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +256,7 @@
     <MESSAGE value="Fix month on the date" />
     <MESSAGE value="Remove .clangd" />
     <MESSAGE value="extusb -&gt; sd" />
-    <option name="LAST_COMMIT_MESSAGE" value="extusb -&gt; sd" />
+    <MESSAGE value="First try at docker cache" />
+    <option name="LAST_COMMIT_MESSAGE" value="First try at docker cache" />
   </component>
 </project>
