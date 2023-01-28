@@ -11,7 +11,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Docker Layer Caching
-        uses: satackey/action-docker-layer-caching@v0.0.11
+        uses: jpribyl/action-docker-layer-caching@v0.1.1
         # Ignore the failure of a step and avoid terminating the job.
         continue-on-error: true
         with:
@@ -20,7 +20,7 @@ jobs:
             savemii-docker-cache-
       - name: Build artifacts
         run: |
-          docker build . --file Dockerfile --tag builder:$(date +%s)
+          docker build . --file Dockerfile --tag builder
           docker run --rm -v ${PWD}:/project builder make -j$(nproc)
       - name: Upload Aroma version
         uses: actions/upload-artifact@v3
