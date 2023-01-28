@@ -16,9 +16,18 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Docker Layer Caching
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
+        with:
+          key: savemii-docker-cache-{hash}
+          restore-keys: |
+            savemii-docker-cache-
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag builder:$(date +%s)
       - name: Build artifacts
         run: |
-          docker build . -t builder
           docker run --rm -v ${PWD}:/project builder make -j$(nproc)
       - name: Upload Aroma version
         uses: actions/upload-artifact@v3

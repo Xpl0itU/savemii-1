@@ -21,36 +21,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd5b4787-c551-419c-863c-d8c1ace05c7d" name="Changes" comment="extusb -&gt; sd">
-      <change afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_statvfs.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_devoptab.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_devoptab.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_devoptab.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_devoptab.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_chdir.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_chdir.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_chmod.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_chmod.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_close.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_close.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_dirclose.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_dirclose.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_dirnext.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_dirnext.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_diropen.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_diropen.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_dirreset.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_dirreset.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_fchmod.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_fchmod.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_fstat.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_fstat.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_fsync.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_fsync.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_link.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_link.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_mkdir.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_mkdir.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_open.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_open.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_read.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_read.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_rename.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_rename.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_rmdir.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_rmdir.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_seek.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_seek.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_stat.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_stat.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_statvfs.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_truncate.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_truncate.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_unlink.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_unlink.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_utils.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_utimes.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_utimes.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/fatfs/extusb_devoptab/extusb_fs_write.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/fatfs/sd_devoptab/sd_fs_write.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/savemng.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/savemng.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +41,7 @@
     <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="fixNotInit" />
+        <entry key="$PROJECT_DIR$" value="refactor" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -205,7 +177,7 @@
       <workItem from="1674916660601" duration="96000" />
       <workItem from="1674917085144" duration="1066000" />
       <workItem from="1674925255552" duration="1785000" />
-      <workItem from="1674927071227" duration="3000" />
+      <workItem from="1674927071227" duration="928000" />
     </task>
     <task id="LOCAL-00001" summary="Fix creating meta folder">
       <created>1674660690550</created>
@@ -256,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674917631169</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="extusb -&gt; sd">
+      <created>1674927115326</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1674927115326</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,6 +249,7 @@
     <MESSAGE value="Try to fix cursor misplacement when switching from Wii U to vWii" />
     <MESSAGE value="Fix month on the date" />
     <MESSAGE value="Remove .clangd" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove .clangd" />
+    <MESSAGE value="extusb -&gt; sd" />
+    <option name="LAST_COMMIT_MESSAGE" value="extusb -&gt; sd" />
   </component>
 </project>
