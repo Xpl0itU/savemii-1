@@ -44,12 +44,13 @@ void LanguageUtils::loadLanguage(Swkbd_LanguageType language) {
             gettextLoadLanguage("romfs:/korean.json");
             break;
         /*
-		case Swkbd_LanguageType__Dutch:
-			gettextLoadLanguage("romfs:/dutch.json");
+        case Swkbd_LanguageType__Dutch:
+            gettextLoadLanguage("romfs:/dutch.json");
             break;
-		case Swkbd_LanguageType__Potuguese:
+        */
+        case Swkbd_LanguageType__Portuguese:
 			gettextLoadLanguage("romfs:/portuguese.json");
-            break;*/
+            break;
         case Swkbd_LanguageType__Russian:
             DrawUtils::setFont(OS_SHAREDDATATYPE_FONT_STANDARD);
             gettextLoadLanguage("romfs:/russian.json");
@@ -84,10 +85,12 @@ std::string LanguageUtils::getLoadedLanguage() {
             return gettext("Traditional Chinese");
         case Swkbd_LanguageType__Korean:
             return gettext("Korean");
-        /*case Swkbd_LanguageType__Dutch:
-			return gettext("Dutch");
-		case Swkbd_LanguageType__Potuguese:
-			return gettext("Portuguese");*/
+        /*
+        case Swkbd_LanguageType__Dutch:
+            return gettext("Dutch");
+        */
+        case Swkbd_LanguageType__Portuguese:
+            return gettext("Portuguese");
         case Swkbd_LanguageType__Russian:
             return gettext("Russian");
         case Swkbd_LanguageType__Chinese2:

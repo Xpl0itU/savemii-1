@@ -18,7 +18,7 @@ typedef enum {
     Swkbd_LanguageType__Chinese1 = 6,
     Swkbd_LanguageType__Korean = 7,
     Swkbd_LanguageType__Dutch = 8,
-    Swkbd_LanguageType__Potuguese = 9,
+    Swkbd_LanguageType__Portuguese = 9,
     Swkbd_LanguageType__Russian = 10,
     Swkbd_LanguageType__Chinese2 = 11,
     Swkbd_LanguageType__Invalid = 12
