@@ -18,6 +18,7 @@
   "   Backup All (%u Title%s)": "   备份所有保存数据（%u 软件）",
   "   Backup Wii U (%u Title%s)": "   备份Wii U软件的保存数据（%u 软件）",
   "   Backup vWii (%u Title%s)": "   备份vWii软件的保存数据（%u 软件）",
+  "\uE000: Backup  \uE002: Set Custom Name  \uE001: Back": "\uE000: 备份  \uE002: 设置自定义名称  \uE001: 返回",
   "\ue000: Backup  \ue001: Back": "\ue000：备份  \ue001：返回",
   "%s Sort: %s \ue084": "%s 排序方式： %s \ue084",
   " [Not Init]": "[未初始化]",

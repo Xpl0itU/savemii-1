@@ -156,7 +156,7 @@ void TitleOptionsState::render() {
 
     switch (task) {
         case backup:
-            consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Backup  \ue001: Back"));
+            consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Backup \uE002: Set Custom Name \ue001: Back"));
             break;
         case restore:
             consolePrintPosAligned(17, 4, 2, LanguageUtils::gettext("\ue000: Restore  \ue001: Back"));

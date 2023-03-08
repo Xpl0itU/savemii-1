@@ -18,6 +18,7 @@
   "   Backup All (%u Title%s)": "   Backup di tutto (%u titolo%s)",
   "   Backup Wii U (%u Title%s)": "   Backup Wii U (%u Titolo%s)",
   "   Backup vWii (%u Title%s)": "   Backup vWii (%u Titolo%s)",
+  "\uE000: Backup  \uE002: Set Custom Name  \uE001: Back": "\uE000: Copiar  \uE002: Imposta nome personalizzato  \uE001: Indietro",
   "\ue000: Backup  \ue001: Back": "\ue000: Backup \ue001: Indietro",
   "%s Sort: %s \ue084": "%s Ordinamento: %s \ue084",
   " [Not Init]": " [Non Init]",
