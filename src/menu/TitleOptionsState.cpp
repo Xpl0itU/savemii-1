@@ -1,7 +1,8 @@
-#include <date.h>
 #include <menu/TitleOptionsState.h>
+#include <meta.h>
 #include <savemng.h>
 #include <utils/InputUtils.h>
+#include <utils/KeyboardUtils.h>
 #include <utils/LanguageUtils.h>
 
 static int cursorPos = 0;
@@ -88,10 +89,10 @@ void TitleOptionsState::render() {
         }
         if ((task == backup) || (task == restore))
             if (!isSlotEmpty(this->title.highID, this->title.lowID, slot)) {
-                Date *dateObj = new Date(this->title.highID, this->title.lowID, slot);
-                consolePrintPos(M_OFF, 15, LanguageUtils::gettext("Date: %s"),
-                                dateObj->get().c_str());
-                delete dateObj;
+                Meta *metaObj = new Meta(this->title.highID, this->title.lowID, slot);
+                consolePrintPos(M_OFF, 15, LanguageUtils::gettext("Date: %s  Name: %s"),
+                                metaObj->getDate().c_str(), metaObj->getName());
+                delete metaObj;
             }
 
         if (task == copytoOtherDevice) {
@@ -147,10 +148,10 @@ void TitleOptionsState::render() {
         if (this->title.iconBuf != nullptr)
             DrawUtils::drawRGB5A3(650, 100, 1, this->title.iconBuf);
         if (!isSlotEmpty(this->title.highID, this->title.lowID, slot)) {
-            Date *dateObj = new Date(this->title.highID, this->title.lowID, slot);
-            consolePrintPos(M_OFF, 15, LanguageUtils::gettext("Date: %s"),
-                            dateObj->get().c_str());
-            delete dateObj;
+            Meta *metaObj = new Meta(this->title.highID, this->title.lowID, slot);
+            consolePrintPos(M_OFF, 15, LanguageUtils::gettext("Date: %s  Name: %s"),
+                            metaObj->getDate().c_str(), metaObj->getName().c_str());
+            delete metaObj;
         }
     }
 
@@ -347,7 +348,7 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
     if (input->get(TRIGGER, PAD_BUTTON_A)) {
         switch (this->task) {
             case backup:
-                backupSavedata(&this->title, slot, allusers, common);
+                backupSavedata(&this->title, slot, allusers, common, this->name);
                 DrawUtils::setRedraw(true);
                 return SUBSTATE_RETURN;
             case restore:
@@ -368,6 +369,20 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
                 }
                 DrawUtils::setRedraw(true);
                 return SUBSTATE_RETURN;
+        }
+    }
+    if (input->get(TRIGGER, PAD_BUTTON_X)) {
+        if (this->task == backup) {
+            KeyboardUtils *keyboard = new KeyboardUtils();
+            if (keyboard->isReady()) {
+                if (keyboard->openKeyboard()) {
+                    keyboard->drawDRC();
+                    keyboard->drawTV();
+                    while (!keyboard->checkResult())
+                        continue;
+                    this->name = keyboard->getResult();
+                }
+            }
         }
     }
     return SUBSTATE_RUNNING;

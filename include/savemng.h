@@ -126,7 +126,7 @@ bool isSlotEmpty(uint32_t highID, uint32_t lowID, uint8_t slot);
 bool hasCommonSave(Title *title, bool inSD, bool iine, uint8_t slot, int version);
 void copySavedata(Title *title, Title *titled, int8_t allusers, int8_t allusers_d, bool common) __attribute__((hot));
 void backupAllSave(Title *titles, int count, OSCalendarTime *date) __attribute__((hot));
-void backupSavedata(Title *title, uint8_t slot, int8_t allusers, bool common) __attribute__((hot));
+void backupSavedata(Title *title, uint8_t slot, int8_t allusers, bool common, std::string name) __attribute__((hot));
 void restoreSavedata(Title *title, uint8_t slot, int8_t sdusers, int8_t allusers, bool common) __attribute__((hot));
 void wipeSavedata(Title *title, int8_t allusers, bool common) __attribute__((hot));
 void importFromLoadiine(Title *title, bool common, int version);

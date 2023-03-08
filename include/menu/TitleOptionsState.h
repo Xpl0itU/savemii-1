@@ -43,4 +43,5 @@ private:
     int titleCount;
 
     bool isWiiUTitle;
+    std::string name = "";
 };

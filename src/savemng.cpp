@@ -2,8 +2,8 @@
 #include <LockingQueue.h>
 #include <chrono>
 #include <cstring>
-#include <date.h>
 #include <future>
+#include <meta.h>
 #include <nn/act/client_cpp.h>
 #include <savemng.h>
 #include <sys/stat.h>
@@ -812,7 +812,7 @@ void copySavedata(Title *title, Title *titleb, int8_t allusers, int8_t allusers_
         return;
     int slotb = getEmptySlot(titleb->highID, titleb->lowID);
     if ((slotb >= 0) && promptConfirm(ST_YES_NO, LanguageUtils::gettext("Backup current savedata first to next empty slot?"))) {
-        backupSavedata(titleb, slotb, allusers, common);
+        backupSavedata(titleb, slotb, allusers, common, "Automatic Backup by SaveMii");
         promptError(LanguageUtils::gettext("Backup done. Now copying Savedata."));
     }
 
@@ -903,7 +903,7 @@ void backupAllSave(Title *titles, int count, OSCalendarTime *date) {
     }
 }
 
-void backupSavedata(Title *title, uint8_t slot, int8_t allusers, bool common) {
+void backupSavedata(Title *title, uint8_t slot, int8_t allusers, bool common, std::string name) {
     if (!isSlotEmpty(title->highID, title->lowID, slot) &&
         !promptConfirm(ST_WARNING, LanguageUtils::gettext("Backup found on this slot. Overwrite it?"))) {
         return;
@@ -940,9 +940,9 @@ void backupSavedata(Title *title, uint8_t slot, int8_t allusers, bool common) {
     OSCalendarTime now;
     OSTicksToCalendarTime(OSGetTime(), &now);
     const std::string date = StringUtils::stringFormat("%02d/%02d/%d %02d:%02d", now.tm_mday, ++now.tm_mon, now.tm_year, now.tm_hour, now.tm_min);
-    Date *dateObj = new Date(title->highID, title->lowID, slot);
-    dateObj->set(date);
-    delete dateObj;
+    Meta *metaObj = new Meta(title->highID, title->lowID, slot);
+    metaObj->setDate(date);
+    delete metaObj;
     if (dstPath.rfind("storage_slccmpt01:", 0) == 0) {
         FSAFlushVolume(handle, "/vol/storage_slccmpt01");
     } else if (dstPath.rfind("storage_mlc01:", 0) == 0) {
@@ -963,7 +963,7 @@ void restoreSavedata(Title *title, uint8_t slot, int8_t sdusers, int8_t allusers
         return;
     int slotb = getEmptySlot(title->highID, title->lowID);
     if ((slotb >= 0) && promptConfirm(ST_YES_NO, LanguageUtils::gettext("Backup current savedata first to next empty slot?")))
-        backupSavedata(title, slotb, allusers, common);
+        backupSavedata(title, slotb, allusers, common, "Automatic Backup by SaveMii");
     uint32_t highID = title->highID;
     uint32_t lowID = title->lowID;
     bool isUSB = title->isTitleOnUSB;
@@ -1033,7 +1033,7 @@ void wipeSavedata(Title *title, int8_t allusers, bool common) {
         return;
     int slotb = getEmptySlot(title->highID, title->lowID);
     if ((slotb >= 0) && promptConfirm(ST_YES_NO, LanguageUtils::gettext("Backup current savedata first?")))
-        backupSavedata(title, slotb, allusers, common);
+        backupSavedata(title, slotb, allusers, common, "Automatic Backup by SaveMii");
     uint32_t highID = title->highID;
     uint32_t lowID = title->lowID;
     bool isUSB = title->isTitleOnUSB;
@@ -1080,7 +1080,7 @@ void importFromLoadiine(Title *title, bool common, int version) {
         return;
     int slotb = getEmptySlot(title->highID, title->lowID);
     if (slotb >= 0 && promptConfirm(ST_YES_NO, LanguageUtils::gettext("Backup current savedata first?")))
-        backupSavedata(title, slotb, 0, common);
+        backupSavedata(title, slotb, 0, common, "Automatic Backup by SaveMii");
     uint32_t highID = title->highID;
     uint32_t lowID = title->lowID;
     bool isUSB = title->isTitleOnUSB;
