@@ -20,16 +20,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd5b4787-c551-419c-863c-d8c1ace05c7d" name="Changes" comment="Add probably wrong translations">
-      <change afterPath="$PROJECT_DIR$/include/utils/KeyboardUtils.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/KeyboardUtils.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cd5b4787-c551-419c-863c-d8c1ace05c7d" name="Changes" comment="It compiles, untested">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/date.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/meta.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/menu/TitleOptionsState.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/menu/TitleOptionsState.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/savemng.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/savemng.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/date.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/meta.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/menu/TitleOptionsState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/menu/TitleOptionsState.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/savemng.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/savemng.cpp" afterDir="false" />
     </list>
@@ -136,6 +129,11 @@
   }
 }</component>
   <component name="RunManager" selected="Makefile Application.all">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Makefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="savemii" TARGET_NAME="Makefile" CONFIG_NAME="Makefile" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -154,11 +152,6 @@
     <configuration name="release" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="savemii" TARGET_NAME="release" CONFIG_NAME="release" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -193,7 +186,10 @@
       <workItem from="1674925255552" duration="1785000" />
       <workItem from="1674927071227" duration="1672000" />
       <workItem from="1678291397769" duration="2271000" />
-      <workItem from="1678304746584" duration="2440000" />
+      <workItem from="1678304746584" duration="5005000" />
+      <workItem from="1678728865669" duration="13000" />
+      <workItem from="1678728908746" duration="8000" />
+      <workItem from="1678729051341" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="Fix creating meta folder">
       <created>1674660690550</created>
@@ -307,7 +303,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678292453961</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="It compiles, untested">
+      <created>1678316392237</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1678316392237</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,6 +333,7 @@
     <MESSAGE value="Bump version" />
     <MESSAGE value="Fix for docker" />
     <MESSAGE value="Add probably wrong translations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add probably wrong translations" />
+    <MESSAGE value="It compiles, untested" />
+    <option name="LAST_COMMIT_MESSAGE" value="It compiles, untested" />
   </component>
 </project>

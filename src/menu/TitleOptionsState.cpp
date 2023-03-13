@@ -378,11 +378,10 @@ ApplicationState::eSubState TitleOptionsState::update(Input *input) {
                 if (keyboard->openKeyboard()) {
                     keyboard->drawDRC();
                     keyboard->drawTV();
-                    while (!keyboard->checkResult())
-                        continue;
                     this->name = keyboard->getResult();
                 }
             }
+            delete keyboard;
         }
     }
     return SUBSTATE_RUNNING;
