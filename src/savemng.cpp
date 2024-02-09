@@ -911,7 +911,7 @@ void backupAllSave(Title *titles, int count, OSCalendarTime *date) {
         bool isWii = ((highID & 0xFFFFFFF0) == 0x00010000);
         const std::string path = (isWii ? "storage_slccmpt01:/title" : (isUSB ? (getUSB() + "/usr/save").c_str() : "storage_mlc01:/usr/save"));
         std::string srcPath = StringUtils::stringFormat("%s/%08x/%08x/%s", path.c_str(), highID, lowID, isWii ? "data" : "user");
-        std::string dstPath = StringUtils::stringFormat("sd:/wiiu/backups/batch/%s/0/%08x%08x", datetime.c_str(), highID, lowID);
+        std::string dstPath = StringUtils::stringFormat("sd:/wiiu/backups/batch/%s/%08x%08x/0", datetime.c_str(), highID, lowID);
 
         createFolder(dstPath.c_str());
         if (!copyDir(srcPath, dstPath))
